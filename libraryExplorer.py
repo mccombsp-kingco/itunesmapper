@@ -1,16 +1,42 @@
-# pyItunes is downloaded and placed somewhere that it is visible to your python
-# install. I have added my git repository to my $PYTHONPATH variable.
-# download from: https://github.com/liamks/pyitunes
-from pyItunes import *
+import xml.etree.ElementTree as et
 
 # initialize and load the iTunes data from the XML file.
 # using a copy of the file placed in my development directory for safe keeping.
-lib = Library("iTunes Music Library.xml")
+lib = et.parse('iTunes Music Library.xml').getroot()
 
+def childprint(child_el):
+    '''Takes any ElementTree element object and prints out the tag and text'''
+    print child_el.tag
+    print child_el.text
+
+# test that the XML version number is the one we know how to deal with.    
+version_num = lib.attribute[version]
+if version_num == '1.0':
+    print "Parsing iTunes XML version %s" % version_num
+else:
+    print "iTunes XML versioin %S, is not supported." % version_num
+
+for child in lib[0]:
+    childprint(child)
+
+#next steps:
+#    Look for tag = "key" and text = "Tracks"
+#    Single out the next child with tag = 'dict'
+#    That is the list of all tracks in the database,
+#    convert it into a real dictionary with "Track ID"
+#    as the key, and all the attributes as a tupple.
+
+
+
+
+
+
+
+### disregard everything below for now
+'''
 # Sample code provided with pyItunes
 # for id, song in lib.songs.items():
 #     print song.name
-
 
 def __table_choice__(header, body):
 
@@ -75,7 +101,6 @@ playlists=lib.getPlaylistNames()
 
 # for song in lib.getPlaylist(playlists[12]).tracks:
 #     print "[%d] %s - %s" % (song.number, song.artist, song.name)
-dir(Song)
 
 songs_list = [(song.lastplayed, song.artist, song.name) for song in lib.getPlaylist(playlists[12]).tracks]
 songs_header =["Date","Artist","Name"]
@@ -85,7 +110,7 @@ for song1 in songs_list:
     print song1
 
 print __table_choice__(songs_header,songs_list)
-
+'''
 '''
 Attributes of the Song class:
 
