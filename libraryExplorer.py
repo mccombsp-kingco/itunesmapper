@@ -64,21 +64,25 @@ def __table_choice__(header, body):
     #      print "Number is out of range."
     #     return -1
     # else:
-    #     return chooser
+    
+#     return chooser
     return return_string
-
 
 
 # Have user select play list to explore
 playlists=lib.getPlaylistNames()
+#print "Play Lists: " + str(playlists)
 
 # for song in lib.getPlaylist(playlists[12]).tracks:
 #     print "[%d] %s - %s" % (song.number, song.artist, song.name)
+dir(Song)
 
-songs_list = [(song.number, song.artist, song.name) for song in lib.getPlaylist(playlists[12]).tracks]
-songs_header =["Number","Artist","Name"]
+songs_list = [(song.lastplayed, song.artist, song.name) for song in lib.getPlaylist(playlists[12]).tracks]
+songs_header =["Date","Artist","Name"]
 
-print "songs_list"+str(type(songs_list))
+print "Least Recently Played Songs:"
+for song1 in songs_list:
+    print song1
 
 print __table_choice__(songs_header,songs_list)
 
