@@ -9,12 +9,17 @@ def childprint(child_el):
     print child_el.tag
     print child_el.text
 
+def super_print(txt_input):
+    print "".ljust(50, '#')
+    print txt_input
+    print "".ljust(50, '#')    
+
 # test that the XML version number is the one we know how to deal with.    
-version_num = lib.attribute[version]
+version_num = lib.attrib["version"]
 if version_num == '1.0':
-    print "Parsing iTunes XML version %s" % version_num
+    super_print("Parsing iTunes XML version %s" % version_num)
 else:
-    print "iTunes XML versioin %S, is not supported." % version_num
+    super_print("iTunes XML versioin %S, is not supported." % version_num)
 
 for child in lib[0]:
     childprint(child)
