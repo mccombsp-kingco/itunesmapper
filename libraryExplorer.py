@@ -5,14 +5,38 @@ import xml.etree.ElementTree as et
 lib = et.parse('iTunes Music Library.xml').getroot()
 
 def childprint(child_el):
-    '''Takes any ElementTree element object and prints out the tag and text'''
+    '''Takes any ElementTree element object and prints out the tag, attrib and text'''
+    print ''.ljust(50,'-')
     print child_el.tag
+    print child_el.attrib
     print child_el.text
+    print ''.ljust(50,'-')
 
 def super_print(txt_input):
     print "".ljust(50, '#')
     print txt_input
-    print "".ljust(50, '#')    
+    print "".ljust(50, '#')
+
+def convert_text_to_data(tag_txt, text_txt):
+    '''
+    Take in the tag and text attributes of an element and convert the text
+    to the data type indicated in the tag, as neccesary.
+    Return the converted data.
+    Check for following tag values:
+        'false', 'string', 'dict', 'key', 'date', 'integer', 'true'   
+    '''
+    if tag_txt == 'false':
+        return false
+    elif tag_txt == 'true':
+        return true
+    elif tag_txt == 'string':
+        return text_txt
+    elif tag_txt == 'integer':
+        return int(text_txt)
+    elif tag_txt == 'date':
+        return int(text_txt)
+    else:
+        return "Didn't expect a '%s' with value: %s" % (tag_txt, text_txt) 
 
 # test that the XML version number is the one we know how to deal with.    
 version_num = lib.attrib["version"]
@@ -21,12 +45,38 @@ if version_num == '1.0':
 else:
     super_print("iTunes XML versioin %S, is not supported." % version_num)
 
+#lib[0] is the <dict> tag just under the lib <plist> tag set as the lib root
+#Looking for the <dict> tag that is preceded by the <key> tag with a text of
+#"Tracks" 
+prev_text = None
 for child in lib[0]:
-    childprint(child)
+    #childprint(child)
+    if prev_text == "Tracks" and child.tag == "dict":
+        super_print("Found it!")
+        songs = child
+        break
+    else:
+        prev_text = child.text
+
+# create a generator from the songs element
+songs_gen = songs.iter()
+
+#Convert the Tracklist <dict> element (songs variable) into a python structure.
+#Every other child of songs is a <dict> element representing a track
+songs_dict = {}
+songs_gen.next() # this throws away the <key> tag
+song_element = songs_gen.next() # this is the <dict> with the good stuff for one song.
+
+## below here is not working. above here is untested.
+childprint(child_key)
+child_value = songs_gen.next()
+childprint(child_value)
+print child_key.text, convert_text_to_data(child_value.tag, child_value.text)
+
+
+
 
 #next steps:
-#    Look for tag = "key" and text = "Tracks"
-#    Single out the next child with tag = 'dict'
 #    That is the list of all tracks in the database,
 #    convert it into a real dictionary with "Track ID"
 #    as the key, and all the attributes as a tupple.
