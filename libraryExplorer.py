@@ -38,6 +38,47 @@ def convert_text_to_data(tag_txt, text_txt):
     else:
         return "Didn't expect a '%s' with value: %s" % (tag_txt, text_txt) 
 
+def convert_song_el(song_el):
+        '''Consumes a <dict> tag from source XML and returns a 2 element tuple. The 1st
+           element is an integer containing the Track ID. The 2nd element is key & value pair
+           to be added '''
+        # This needs to be implemented obviously will not work yet.
+        
+        song_dict = {}
+        alternator = 0 #This variable will alternate between 0 which indicates a key tag
+        #               and 1 which indicates a value tag
+        TrackID_flag = False #This variable will be set to true when the Track ID integer is 
+        #                     expected.
+
+        for attribute_el in song_element:
+            if attribute_el.text == "TrackID":
+                TrackID_flag = True
+            <key>Track ID</key><integer>3536</integer>
+            <key>Name</key><string>KEXP Live Performance Podcast: The Gossip</string>
+            <key>Artist</key><string>The Gossip</string>
+            <key>Album</key><string>KEXP Live Performances Podcast</string>
+            <key>Genre</key><string>Podcast</string>
+            <key>Kind</key><string>MPEG audio file</string>
+            <key>Size</key><integer>27832978</integer>
+            <key>Total Time</key><integer>1391544</integer>
+            <key>Year</key><integer>2006</integer>
+            <key>Date Modified</key><date>2006-03-05T20:01:25Z</date>
+            <key>Date Added</key><date>2010-05-25T05:44:08Z</date>
+            <key>Bit Rate</key><integer>160</integer>
+            <key>Sample Rate</key><integer>48000</integer>
+            <key>Play Date</key><integer>3224514089</integer>
+            <key>Play Date UTC</key><date>2006-03-07T01:21:29Z</date>
+            <key>Release Date</key><date>2006-02-24T21:34:00Z</date>
+            <key>Sort Artist</key><string>Gossip</string>
+            <key>Persistent ID</key><string>1B1440663BFF32B0</string>
+            <key>Track Type</key><string>File</string>
+            <key>Podcast</key><true/>
+            <key>Unplayed</key><true/>
+            <key>Location</key><string>file://localhost/Users/paulmccombs/Music/iTunes/iTunes%20Music/Podcasts/KEXP%20Live%20Performances%20Podcast/KEXP%20Live%20Performance%20Podcast_%20The%20Gossip.mp3</string>
+            <key>File Folder Count</key><integer>4</integer>
+            <key>Library Folder Count</key><integer>1</integer>
+
+
 # test that the XML version number is the one we know how to deal with.    
 version_num = lib.attrib["version"]
 if version_num == '1.0':
@@ -63,16 +104,13 @@ songs_gen = songs.iter()
 
 #Convert the Tracklist <dict> element (songs variable) into a python structure.
 #Every other child of songs is a <dict> element representing a track
+#This block is untested.
 songs_dict = {}
 songs_gen.next() # this throws away the <key> tag
 song_element = songs_gen.next() # this is the <dict> with the good stuff for one song.
-
-## below here is not working. above here is untested.
-childprint(child_key)
-child_value = songs_gen.next()
-childprint(child_value)
-print child_key.text, convert_text_to_data(child_value.tag, child_value.text)
-
+(song_key, song_dict) = convert_song_el(song_element)
+songs_dict[song_key] = song_dict
+print songs_dict
 
 
 
