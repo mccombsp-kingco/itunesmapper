@@ -1,4 +1,5 @@
 import xml.etree.ElementTree as et
+import datetime
 
 # initialize and load the iTunes data from the XML file.
 # using a copy of the file placed in my development directory for safe keeping.
@@ -26,58 +27,46 @@ def convert_text_to_data(tag_txt, text_txt):
         'false', 'string', 'dict', 'key', 'date', 'integer', 'true'   
     '''
     if tag_txt == 'false':
-        return false
+        return False
     elif tag_txt == 'true':
-        return true
+        return True
     elif tag_txt == 'string':
         return text_txt
     elif tag_txt == 'integer':
         return int(text_txt)
     elif tag_txt == 'date':
-        return int(text_txt)
+        return datetime.datetime.strptime(text_txt, '%Y-%m-%dT%H:%M:%SZ')
     else:
         return "Didn't expect a '%s' with value: %s" % (tag_txt, text_txt) 
 
 def convert_song_el(song_el):
-        '''Consumes a <dict> tag from source XML and returns a 2 element tuple. The 1st
-           element is an integer containing the Track ID. The 2nd element is key & value pair
-           to be added '''
-        # This needs to be implemented obviously will not work yet.
-        
-        song_dict = {}
-        alternator = 0 #This variable will alternate between 0 which indicates a key tag
-        #               and 1 which indicates a value tag
-        TrackID_flag = False #This variable will be set to true when the Track ID integer is 
-        #                     expected.
+    '''Consumes a <dict> tag from source XML and returns a 2 element tuple. The 1st
+       element is an integer containing the Track ID. The 2nd element is a dict with key &
+       value pairs derived from the children tags of the <dict> tag passed in. '''
+    
+    song_value_dict = {}
+    alternator = 0 #This variable will alternate between 0 which indicates a key tag
+    #               and 1 which indicates a value tag
+    TrackID_flag = False #This variable will be set to true when the Track ID integer is 
+    #                     expected.
 
-        for attribute_el in song_element:
-            if attribute_el.text == "TrackID":
-                TrackID_flag = True
-            <key>Track ID</key><integer>3536</integer>
-            <key>Name</key><string>KEXP Live Performance Podcast: The Gossip</string>
-            <key>Artist</key><string>The Gossip</string>
-            <key>Album</key><string>KEXP Live Performances Podcast</string>
-            <key>Genre</key><string>Podcast</string>
-            <key>Kind</key><string>MPEG audio file</string>
-            <key>Size</key><integer>27832978</integer>
-            <key>Total Time</key><integer>1391544</integer>
-            <key>Year</key><integer>2006</integer>
-            <key>Date Modified</key><date>2006-03-05T20:01:25Z</date>
-            <key>Date Added</key><date>2010-05-25T05:44:08Z</date>
-            <key>Bit Rate</key><integer>160</integer>
-            <key>Sample Rate</key><integer>48000</integer>
-            <key>Play Date</key><integer>3224514089</integer>
-            <key>Play Date UTC</key><date>2006-03-07T01:21:29Z</date>
-            <key>Release Date</key><date>2006-02-24T21:34:00Z</date>
-            <key>Sort Artist</key><string>Gossip</string>
-            <key>Persistent ID</key><string>1B1440663BFF32B0</string>
-            <key>Track Type</key><string>File</string>
-            <key>Podcast</key><true/>
-            <key>Unplayed</key><true/>
-            <key>Location</key><string>file://localhost/Users/paulmccombs/Music/iTunes/iTunes%20Music/Podcasts/KEXP%20Live%20Performances%20Podcast/KEXP%20Live%20Performance%20Podcast_%20The%20Gossip.mp3</string>
-            <key>File Folder Count</key><integer>4</integer>
-            <key>Library Folder Count</key><integer>1</integer>
-
+    for attribute_el in song_element:
+        print attribute_el.tag, attribute_el.text
+        if attribute_el.text == "Track ID":
+            TrackID_flag = True
+            alternator = 1
+        elif TrackID_flag == True:
+            song_key = int(attribute_el.text)
+            TrackID_flag = False
+            alternator = 0
+        elif alternator == 0:
+            song_value_dict_key = attribute_el.text
+            alternator = 1
+        elif alternator == 1:
+            song_value_dict_value = convert_text_to_data(attribute_el.tag, attribute_el.text)
+            alternator = 0
+            song_value_dict[song_value_dict_key] = song_value_dict_value
+    return (song_key, song_value_dict)
 
 # test that the XML version number is the one we know how to deal with.    
 version_num = lib.attrib["version"]
@@ -91,7 +80,7 @@ else:
 #"Tracks" 
 prev_text = None
 for child in lib[0]:
-    #childprint(child)
+    #debug# childprint(child)
     if prev_text == "Tracks" and child.tag == "dict":
         super_print("Found it!")
         songs = child
@@ -101,23 +90,20 @@ for child in lib[0]:
 
 # create a generator from the songs element
 songs_gen = songs.iter()
+#debug# super_print("songs_gen type:"+str(type(songs_gen)))
 
 #Convert the Tracklist <dict> element (songs variable) into a python structure.
 #Every other child of songs is a <dict> element representing a track
 #This block is untested.
 songs_dict = {}
+songs_gen.next() # this throws away the root <dict> tag
 songs_gen.next() # this throws away the <key> tag
 song_element = songs_gen.next() # this is the <dict> with the good stuff for one song.
+childprint(song_element)
 (song_key, song_dict) = convert_song_el(song_element)
 songs_dict[song_key] = song_dict
 print songs_dict
 
-
-
-#next steps:
-#    That is the list of all tracks in the database,
-#    convert it into a real dictionary with "Track ID"
-#    as the key, and all the attributes as a tupple.
 
 
 
