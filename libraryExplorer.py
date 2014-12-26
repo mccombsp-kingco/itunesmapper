@@ -1,10 +1,6 @@
 import xml.etree.ElementTree as et
 import datetime
 
-# initialize and load the iTunes data from the XML file.
-# using a copy of the file placed in my development directory for safe keeping.
-lib = et.parse('iTunes Music Library.xml').getroot()
-
 def childprint(child_el):
     '''Takes any ElementTree element object and prints out the tag, attrib and text'''
     print ''.ljust(50,'-')
@@ -68,6 +64,14 @@ def convert_song_el(song_el):
             song_value_dict[song_value_dict_key] = song_value_dict_value
     return (song_key, song_value_dict)
 
+#######################################
+# Start of the main body logic
+#######################################
+
+# initialize and load the iTunes data from the XML file.
+# using a copy of the file placed in my development directory for safe keeping.
+lib = et.parse('iTunes Music Library.xml').getroot()
+
 # test that the XML version number is the one we know how to deal with.    
 version_num = lib.attrib["version"]
 if version_num == '1.0':
@@ -82,19 +86,22 @@ prev_text = None
 for child in lib[0]:
     #debug# childprint(child)
     if prev_text == "Tracks" and child.tag == "dict":
-        super_print("Found it!")
-        songs = child
+        super_print("Found the 'Tracks' <dict> tag!")
+        #old# songs = child
         break
     else:
         prev_text = child.text
 
 # create a generator from the songs element
-songs_gen = songs.iter()
+#old# songs_gen = songs.iter()
 #debug# super_print("songs_gen type:"+str(type(songs_gen)))
 
 #Convert the Tracklist <dict> element (songs variable) into a python structure.
 #Every other child of songs is a <dict> element representing a track
-#This block is untested.
+## !!!!!!
+#This block works for the first child <dict> element but then iterates through the children
+# of the dict before it goes to the next key tag. So the way the block calls convert_song_el
+# is not going to work out.
 songs_dict = {}
 songs_gen.next() # this throws away the root <dict> tag
 songs_gen.next() # this throws away the <key> tag
@@ -102,14 +109,7 @@ song_element = songs_gen.next() # this is the <dict> with the good stuff for one
 childprint(song_element)
 (song_key, song_dict) = convert_song_el(song_element)
 songs_dict[song_key] = song_dict
-print songs_dict
-
-
-
-
-
-
-
+#debug# print songs_dict
 
 ### disregard everything below for now
 '''
@@ -172,52 +172,3 @@ def __table_choice__(header, body):
     
 #     return chooser
     return return_string
-
-
-# Have user select play list to explore
-playlists=lib.getPlaylistNames()
-#print "Play Lists: " + str(playlists)
-
-# for song in lib.getPlaylist(playlists[12]).tracks:
-#     print "[%d] %s - %s" % (song.number, song.artist, song.name)
-
-songs_list = [(song.lastplayed, song.artist, song.name) for song in lib.getPlaylist(playlists[12]).tracks]
-songs_header =["Date","Artist","Name"]
-
-print "Least Recently Played Songs:"
-for song1 in songs_list:
-    print song1
-
-print __table_choice__(songs_header,songs_list)
-'''
-'''
-Attributes of the Song class:
-
-name (String)
-artist (String)
-album_artist (String)
-composer = None (String)
-album = None (String)
-genre = None (String)
-kind = None (String)
-size = None (Integer)
-total_time = None (Integer)
-track_number = None (Integer)
-track_count = None (Integer)
-disc_number = None (Integer)
-disc_count = None (Integer)
-year = None (Integer)
-date_modified = None (Time)
-date_added = None (Time)
-bit_rate = None (Integer)
-sample_rate = None (Integer)
-comments = None (String)
-rating = None (Integer)
-album_rating = None (Integer)
-play_count = None (Integer)
-location = None (String)
-compilation = None (Boolean)
-grouping = None (String)
-lastplayed = None (Time)
-length = None (Integer)
-'''
