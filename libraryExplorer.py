@@ -35,19 +35,23 @@ def convert_text_to_data(tag_txt, text_txt):
     else:
         return "Didn't expect a '%s' with value: %s" % (tag_txt, text_txt) 
 
-def convert_song_el(song_el):
-    '''Consumes a <dict> tag from source XML and returns a 2 element tuple. The 1st
+def convert_song_el():
+    '''uses elements from songs_gen established in main body logic and returns a 
+       2 element tuple. The 1st
        element is an integer containing the Track ID. The 2nd element is a dict with key &
        value pairs derived from the children tags of the <dict> tag passed in. '''
-    
+    childprint(songs_gen.next()) # this throws away the single song <dict> tag    
     song_value_dict = {}
     alternator = 0 #This variable will alternate between 0 which indicates a key tag
     #               and 1 which indicates a value tag
     TrackID_flag = False #This variable will be set to true when the Track ID integer is 
     #                     expected.
-
-    for attribute_el in song_element:
+    while True:
+    #old# for attribute_el in song_element:
+        attribute_el = songs_gen.next()
         print attribute_el.tag, attribute_el.text
+        if attribute_el.tag == "dict": # this detects the start of the next song.
+            break
         if attribute_el.text == "Track ID":
             TrackID_flag = True
             alternator = 1
@@ -87,29 +91,29 @@ for child in lib[0]:
     #debug# childprint(child)
     if prev_text == "Tracks" and child.tag == "dict":
         super_print("Found the 'Tracks' <dict> tag!")
-        #old# songs = child
+        songs = child
         break
     else:
         prev_text = child.text
 
 # create a generator from the songs element
-#old# songs_gen = songs.iter()
+songs_gen = songs.iter()
 #debug# super_print("songs_gen type:"+str(type(songs_gen)))
 
 #Convert the Tracklist <dict> element (songs variable) into a python structure.
 #Every other child of songs is a <dict> element representing a track
-## !!!!!!
-#This block works for the first child <dict> element but then iterates through the children
-# of the dict before it goes to the next key tag. So the way the block calls convert_song_el
-# is not going to work out.
 songs_dict = {}
-songs_gen.next() # this throws away the root <dict> tag
-songs_gen.next() # this throws away the <key> tag
-song_element = songs_gen.next() # this is the <dict> with the good stuff for one song.
-childprint(song_element)
-(song_key, song_dict) = convert_song_el(song_element)
+childprint(songs_gen.next()) # this throws away the root <dict> tag
+childprint(songs_gen.next()) # this throws away the <key> tag
+
+#This only goes through the first song. Needs to go into a loop and loop until
+# the end of the Tracks <dict>. Use while True: and break out when end is 
+# detected.
+(song_key, song_dict) = convert_song_el()
 songs_dict[song_key] = song_dict
 #debug# print songs_dict
+print len(songs_dict[song_key])
+#debug# print songs_dict[song_key].keys()
 
 ### disregard everything below for now
 '''
@@ -172,3 +176,4 @@ def __table_choice__(header, body):
     
 #     return chooser
     return return_string
+'''
