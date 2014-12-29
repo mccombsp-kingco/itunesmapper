@@ -40,6 +40,9 @@ def convert_song_el():
        2 element tuple. The 1st
        element is an integer containing the Track ID. The 2nd element is a dict with key &
        value pairs derived from the children tags of the <dict> tag passed in. '''
+    #### need to check if this will be <dict> on the 1st song or Track ID on the 2nd +
+    #### need to predict and only run this line the first time.
+    
     childprint(songs_gen.next()) # this throws away the single song <dict> tag    
     song_value_dict = {}
     alternator = 0 #This variable will alternate between 0 which indicates a key tag
@@ -47,9 +50,8 @@ def convert_song_el():
     TrackID_flag = False #This variable will be set to true when the Track ID integer is 
     #                     expected.
     while True:
-    #old# for attribute_el in song_element:
         attribute_el = songs_gen.next()
-        print attribute_el.tag, attribute_el.text
+        #debug# print attribute_el.tag, attribute_el.text
         if attribute_el.tag == "dict": # this detects the start of the next song.
             break
         if attribute_el.text == "Track ID":
@@ -66,6 +68,7 @@ def convert_song_el():
             song_value_dict_value = convert_text_to_data(attribute_el.tag, attribute_el.text)
             alternator = 0
             song_value_dict[song_value_dict_key] = song_value_dict_value
+    print song_key
     return (song_key, song_value_dict)
 
 #######################################
@@ -109,11 +112,18 @@ childprint(songs_gen.next()) # this throws away the <key> tag
 #This only goes through the first song. Needs to go into a loop and loop until
 # the end of the Tracks <dict>. Use while True: and break out when end is 
 # detected.
-(song_key, song_dict) = convert_song_el()
-songs_dict[song_key] = song_dict
-#debug# print songs_dict
-print len(songs_dict[song_key])
-#debug# print songs_dict[song_key].keys()
+while True:
+    (song_key, song_dict) = convert_song_el()
+    if song_key == "array": # this indicates end of all song dicts
+        break
+    songs_dict[song_key] = song_dict
+    #debug# print songs_dict
+    #debug# print len(songs_dict[song_key])
+    #debug# print songs_dict[song_key].keys()
+
+len(songs_dict)
+
+####  handle track lists next
 
 ### disregard everything below for now
 '''
