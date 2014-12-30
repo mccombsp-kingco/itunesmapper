@@ -48,28 +48,32 @@ def convert_song_el():
     #               and 1 which indicates a value tag
     TrackID_flag = False #This variable will be set to true when the Track ID integer is 
     #                     expected.
-    while True:
-        attribute_el = songs_gen.next()
-        #debug# print attribute_el.tag, attribute_el.text
-        if attribute_el.tag in ("dict", "array"): # this detects the start of the next
-        #                                           song or the end of the Track List.
-            break
-        if attribute_el.text == "Track ID":
-            TrackID_flag = True
-            alternator = 1
-        elif TrackID_flag == True:
-            song_key = int(attribute_el.text)
-            TrackID_flag = False
-            alternator = 0
-        elif alternator == 0:
-            song_value_dict_key = attribute_el.text
-            alternator = 1
-        elif alternator == 1:
-            song_value_dict_value = convert_text_to_data(attribute_el.tag, attribute_el.text)
-            alternator = 0
-            song_value_dict[song_value_dict_key] = song_value_dict_value
-    print song_key
-    return (song_key, song_value_dict)
+    try:
+        while True:
+            attribute_el = songs_gen.next()
+            #debug# print attribute_el.tag, attribute_el.text
+            if attribute_el.tag == "dict": # this detects the start of the next song.
+                break
+            if attribute_el.text == "Track ID":
+                TrackID_flag = True
+                alternator = 1
+            elif TrackID_flag == True:
+                song_key = int(attribute_el.text)
+                TrackID_flag = False
+                alternator = 0
+            elif alternator == 0:
+                song_value_dict_key = attribute_el.text
+                alternator = 1
+            elif alternator == 1:
+                song_value_dict_value = convert_text_to_data(attribute_el.tag, attribute_el.text)
+                alternator = 0
+                song_value_dict[song_value_dict_key] = song_value_dict_value
+    except StopIteration: #This catches the end of the TrackList element
+        #debug# print song_key
+        return (song_key, song_value_dict, True)
+        
+    #debug# print song_key
+    return (song_key, song_value_dict, False)
 
 #######################################
 # Start of the main body logic
@@ -93,7 +97,7 @@ prev_text = None
 for child in lib[0]:
     #debug# childprint(child)
     if prev_text == "Tracks" and child.tag == "dict":
-        super_print("Found the 'Tracks' <dict> tag!")
+        #debug# super_print("Found the 'Tracks' <dict> tag!")
         songs = child
         break
     else:
@@ -106,23 +110,30 @@ songs_gen = songs.iter()
 #Convert the Tracklist <dict> element (songs variable) into a python structure.
 #Every other child of songs is a <dict> element representing a track
 songs_dict = {}
-childprint(songs_gen.next()) # this throws away the root <dict> tag
-childprint(songs_gen.next()) # this throws away the <key> tag
-childprint(songs_gen.next()) # this brings us to the 1st of the single song <dict> tags
+songs_gen.next() # this throws away the root <dict> tag
+songs_gen.next() # this throws away the <key> tag
+songs_gen.next() # this brings us to the 1st of the single song <dict> tags
 
 #This only goes through the first song. Needs to go into a loop and loop until
 # the end of the Tracks <dict>. Use while True: and break out when end is 
 # detected.
 while True:
-    (song_key, song_dict) = convert_song_el()
-    if song_key == "array": # this indicates end of all song dicts
+    (song_key, song_dict, the_end) = convert_song_el()
+    if the_end: # this indicates end of all song dicts
         break
     songs_dict[song_key] = song_dict
+    #debug# print str(len(songs_dict))+" songs in the songs_dict: 2"
     #debug# print songs_dict
     #debug# print len(songs_dict[song_key])
     #debug# print songs_dict[song_key].keys()
 
-len(songs_dict)
+print str(len(songs_dict))+" songs in the songs_dict."
+
+#debug# for song in songs_dict.values():
+#debug#    print song["Name"],
+
+#### implement the library Explorer functionality. May want to use table choice commented
+####   out below
 
 ####  handle track lists next
 
