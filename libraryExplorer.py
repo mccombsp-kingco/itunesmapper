@@ -43,7 +43,6 @@ def convert_song_el():
     #### need to check if this will be <dict> on the 1st song or Track ID on the 2nd +
     #### need to predict and only run this line the first time.
     
-    childprint(songs_gen.next()) # this throws away the single song <dict> tag    
     song_value_dict = {}
     alternator = 0 #This variable will alternate between 0 which indicates a key tag
     #               and 1 which indicates a value tag
@@ -52,7 +51,8 @@ def convert_song_el():
     while True:
         attribute_el = songs_gen.next()
         #debug# print attribute_el.tag, attribute_el.text
-        if attribute_el.tag == "dict": # this detects the start of the next song.
+        if attribute_el.tag in ("dict", "array"): # this detects the start of the next
+        #                                           song or the end of the Track List.
             break
         if attribute_el.text == "Track ID":
             TrackID_flag = True
@@ -108,6 +108,7 @@ songs_gen = songs.iter()
 songs_dict = {}
 childprint(songs_gen.next()) # this throws away the root <dict> tag
 childprint(songs_gen.next()) # this throws away the <key> tag
+childprint(songs_gen.next()) # this brings us to the 1st of the single song <dict> tags
 
 #This only goes through the first song. Needs to go into a loop and loop until
 # the end of the Tracks <dict>. Use while True: and break out when end is 
