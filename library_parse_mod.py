@@ -1,6 +1,22 @@
 import xml.etree.ElementTree as et
 import datetime
 
+''' If you load this as a module call parse_XML() with no arguments to get back a songs
+    dictionary.
+    
+    A to do list:
+    1. Something like this:
+    for song in tester.values():
+        if song.has_key('Artist') and song['Artist'] == 'Sufjan Stevens':
+            print song['Album'], song['Name']
+            
+    2.  implement the library Explorer functionality. May want to fix and use
+
+    3. Make __table_choice__() work
+
+    4. handle play lists            
+'''
+
 def childprint(child_el):
     '''Takes any ElementTree element object and prints out the tag, attrib and text'''
     print ''.ljust(50,'-')
@@ -198,8 +214,3 @@ def __table_choice__(header, body):
 if __name__ == '__main__':
     super_print("Welcome to the Library Explorer!")
     parse_XML()
-    
-    #### implement the library Explorer functionality. May want to fix and use
-    #### __table_choice__()
-
-    ####  handle track lists next
