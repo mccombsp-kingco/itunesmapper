@@ -210,7 +210,20 @@ def __table_choice__(header, body):
 #     
 #     return return_string
 
+def collect_keys(songs_dict):
+    ''' Takes a dictionary output by parse_XML, scans through all songs and makes
+        a set including all of the possible attribute keys.
+    '''
+    song_keys = set()
+    for song in songs_dict.values():
+        for k in song.keys():
+            song_keys.add(k)
+
+    return song_keys
 
 if __name__ == '__main__':
     super_print("Welcome to the Library Explorer!")
-    parse_XML()
+    all_songs = parse_XML()
+    all_keys = collect_keys(all_songs)
+
+    super_print(str(all_keys))
