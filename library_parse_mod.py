@@ -10,7 +10,7 @@ import datetime
         if song.has_key('Artist') and song['Artist'] == 'Sufjan Stevens':
             print song['Album'], song['Name']
             
-    2.  implement the library Explorer functionality. May want to fix and use
+    2. Implement the library Explorer functionality
 
     3. Make __table_choice__() work
 
@@ -123,7 +123,9 @@ def parse_XML():
         if prev_text == "Tracks" and child.tag == "dict":
             #debug# super_print("Found the 'Tracks' <dict> tag!")
             songs = child
-            break
+        elif prev_text == "Playlists" and child.tag == "array":
+            lists = child
+            super_print("Found the 'Playlists' <array> tag!")
         else:
             prev_text = child.text
 
@@ -138,9 +140,8 @@ def parse_XML():
     songs_gen.next() # this throws away the <key> tag
     songs_gen.next() # this brings us to the 1st of the single song <dict> tags
 
-    #This only goes through the first song. Needs to go into a loop and loop until
-    # the end of the Tracks <dict>. Use while True: and break out when end is 
-    # detected.
+    # This loops until the end of the Tracks <dict> and passes each song element
+    # convert_song_el
     while True:
         (song_key, song_dict, the_end) = convert_song_el(songs_gen)
         if the_end: # this indicates end of all song dicts
@@ -153,7 +154,10 @@ def parse_XML():
 
     super_print(str(len(songs_dict))+" songs in the songs_dict.")
 
-    return songs_dict
+    # Get ready to parse the play lists
+    play_list_dict = dict()
+
+    return (songs_dict, play_list_dict)
 
 def __table_choice__(header, body):
 
@@ -223,7 +227,8 @@ def collect_keys(songs_dict):
 
 if __name__ == '__main__':
     super_print("Welcome to the Library Explorer!")
-    all_songs = parse_XML()
+    (all_songs, all_lists) = parse_XML()
     all_keys = collect_keys(all_songs)
 
     super_print(str(all_keys))
+    super_print(str(all_lists))
