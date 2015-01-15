@@ -91,6 +91,19 @@ def convert_song_el(songs_gen):
     #debug# print song_key
     return (song_key, song_value_dict, False)
 
+def convert_list_el(lists_gen):
+    ''' Currently returns bogus data that ends the calling loop. It Should
+        use lists_gen.next() to step through the XML, find each play list create a string
+        of the name and a set of the Track ID integers then return them along with a flag
+        that indicates there is more or not.
+    '''
+    tag_el = lists_gen.next()
+    if tag_el.tag == 'array':
+        the_end = False
+    else:
+        the_end = True
+        
+    return ("sample", set(tag_el.tag), the_end)
 
 def parse_XML():
     ''' parse_XML() takes no arguments. It currently loads a hard coded iTunes XML file.
@@ -140,22 +153,34 @@ def parse_XML():
     songs_gen.next() # this throws away the <key> tag
     songs_gen.next() # this brings us to the 1st of the single song <dict> tags
 
-    # This loops until the end of the Tracks <dict> and passes each song element
+    # This loops until the end of the Tracks <dict> and passes each song element to
     # convert_song_el
     while True:
         (song_key, song_dict, the_end) = convert_song_el(songs_gen)
+        songs_dict[song_key] = song_dict
         if the_end: # this indicates end of all song dicts
             break
-        songs_dict[song_key] = song_dict
-        #debug# print str(len(songs_dict))+" songs in the songs_dict: 2"
-        #debug# print songs_dict
-        #debug# print len(songs_dict[song_key])
-        #debug# print songs_dict[song_key].keys()
 
     super_print(str(len(songs_dict))+" songs in the songs_dict.")
 
-    # Get ready to parse the play lists
+    # Get ready to parse the Play Lists
     play_list_dict = dict()
+    #debug# super_print("pld1 "+str(play_list_dict))
+    
+    # create a generator from the playlist element
+    lists_gen = lists.iter()
+
+    # This loops until the end of the Playlists <array> and creates play_list_dict, a 
+    # dictionary with a key/value pair for each playlist. The key is a string containing
+    # the play list name. The value is a set of Track IDs.
+    while True:
+        (list_key, list_set, the_end) = convert_list_el(lists_gen)
+        #debug# super_print("list_key "+str(list_key))
+        #debug# super_print("list_set "+str(list_set))
+        play_list_dict[list_key] = list_set
+        #debug# super_print("pld2 "+str(play_list_dict))
+        if the_end: # this indicates end of all play list arrays
+            break
 
     return (songs_dict, play_list_dict)
 
@@ -215,8 +240,8 @@ def __table_choice__(header, body):
 #     return return_string
 
 def collect_keys(songs_dict):
-    ''' Takes a dictionary output by parse_XML, scans through all songs and makes
-        a set including all of the possible attribute keys.
+    ''' Takes the dictionary of songs output by parse_XML, scans through all songs and
+        makes a set including all of the possible attribute keys.
     '''
     song_keys = set()
     for song in songs_dict.values():
@@ -232,3 +257,4 @@ if __name__ == '__main__':
 
     super_print(str(all_keys))
     super_print(str(all_lists))
+    super_print(str(all_songs[240991]))
