@@ -114,11 +114,11 @@ def convert_list_el(lists_gen):
         current_el = lists_gen.next()
 
     #create the set of Trac IDs for playlist
-    TrackIDs = set()
+    track_ids = set()
     while True: 
         if prev_el.text == 'Track ID' and current_el.tag == 'integer':
             super_print("test is true")
-            TrackIDs.add(int(current_el.text))
+            track_ids.add(int(current_el.text))
             childprint(current_el)
             break
 
@@ -127,7 +127,7 @@ def convert_list_el(lists_gen):
 
     the_end = True
         
-    return (plist_name, set(), the_end)
+    return (plist_name, track_ids, the_end)
 
 def parse_XML():
     ''' parse_XML() takes no arguments. It currently loads a hard coded iTunes XML file.
