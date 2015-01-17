@@ -97,13 +97,37 @@ def convert_list_el(lists_gen):
         of the name and a set of the Track ID integers then return them along with a flag
         that indicates there is more or not.
     '''
-    tag_el = lists_gen.next()
-    if tag_el.tag == 'array':
-        the_end = False
-    else:
-        the_end = True
+    prev_el = lists_gen.next()
+    #debug# childprint(prev_el)
+    current_el = lists_gen.next()
+    #debug# childprint(current_el)
+
+    while True: #loop looking for Name element of play list
+        if prev_el.tag == 'dict' and current_el.text == 'Name':
+            super_print("test is true")
+            current_el = lists_gen.next()
+            childprint(current_el)
+            plist_name = current_el.text
+            break
+
+        prev_el = current_el
+        current_el = lists_gen.next()
+
+    #create the set of Trac IDs for playlist
+    TrackIDs = set()
+    while True: 
+        if prev_el.text == 'Track ID' and current_el.tag == 'integer':
+            super_print("test is true")
+            TrackIDs.add(int(current_el.text))
+            childprint(current_el)
+            break
+
+        prev_el = current_el
+        current_el = lists_gen.next()        
+
+    the_end = True
         
-    return ("sample", set(tag_el.tag), the_end)
+    return (plist_name, set(), the_end)
 
 def parse_XML():
     ''' parse_XML() takes no arguments. It currently loads a hard coded iTunes XML file.
@@ -257,4 +281,4 @@ if __name__ == '__main__':
 
     super_print(str(all_keys))
     super_print(str(all_lists))
-    super_print(str(all_songs[240991]))
+    #debug# super_print(str(all_songs[169498]))
