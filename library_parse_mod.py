@@ -102,12 +102,16 @@ def convert_list_el(lists_gen):
     current_el = lists_gen.next()
     #debug# childprint(current_el)
 
-    while True: #loop looking for Name element of play list
+    while True: # loop looking for Name element of play list, and the array tag
+                # that hold all the track ids
         if prev_el.tag == 'dict' and current_el.text == 'Name':
-            super_print("test is true")
+            #debug# super_print("test is true")
             current_el = lists_gen.next()
-            childprint(current_el)
+            #debug# childprint(current_el)
             plist_name = current_el.text
+        if prev_el.text == 'Playlist Items' and current_el.tag == 'array':
+            #debug# childprint(current_el)
+            plist_gen = current_el.iter()
             break
 
         prev_el = current_el
@@ -115,15 +119,19 @@ def convert_list_el(lists_gen):
 
     #create the set of Trac IDs for playlist
     track_ids = set()
-    while True: 
-        if prev_el.text == 'Track ID' and current_el.tag == 'integer':
-            super_print("test is true")
-            track_ids.add(int(current_el.text))
-            childprint(current_el)
-            break
+    prev_el = plist_gen.next()
+    #debug# print "prev_el"
+    #debug# childprint(prev_el)
 
-        prev_el = current_el
-        current_el = lists_gen.next()        
+    for current_el in plist_gen:
+        #debug# childprint(current_el)
+        #debug# xxx = raw_input("wait")
+        if prev_el.text == 'Track ID' and current_el.tag == 'integer':
+            #debug# super_print("test is true")
+            track_ids.add(int(current_el.text))
+            #debug# childprint(current_el)
+
+        prev_el = current_el        
 
     the_end = True
         
@@ -177,8 +185,8 @@ def parse_XML():
     songs_gen.next() # this throws away the <key> tag
     songs_gen.next() # this brings us to the 1st of the single song <dict> tags
 
-    # This loops until the end of the Tracks <dict> and passes each song element to
-    # convert_song_el
+    # This loops until the end of the Tracks <dict> and passes each song element
+    # to convert_song_el
     while True:
         (song_key, song_dict, the_end) = convert_song_el(songs_gen)
         songs_dict[song_key] = song_dict
@@ -280,5 +288,7 @@ if __name__ == '__main__':
     all_keys = collect_keys(all_songs)
 
     super_print(str(all_keys))
-    super_print(str(all_lists))
+    #debug# super_print(str(all_lists))
     #debug# super_print(str(all_songs[169498]))
+    for pl_name in all_lists.keys():
+        print "Play List: "+pl_name+" - Length: "+str(len(all_lists[pl_name]))
