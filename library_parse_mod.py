@@ -1,10 +1,29 @@
+# Portion of iTunesMapper. A project to parse the iTunes XML, import google
+# location data, and create a map of where you listened to a subset of songs
+
+# Copyright (C) 2015  paul mccombs
+# contact at https://github.com/mccombsp-kingco/itunesmapper
+
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+
+# You should have received a copy of the GNU General Public License
+# along with this program.  If not, see http://www.gnu.org/licenses/ .
+
 import xml.etree.ElementTree as et
 import datetime
 
-''' If you load this as a module call parse_XML() with no arguments to get back a songs
-    dictionary.
+''' If you load this as a module call parse_XML() with no arguments to get back a two
+    element tupple. First a songs dictionary and second a play list dictionary.
     
-    A to do list:
+    To do list:
     1. Something like this:
     for song in tester.values():
         if song.has_key('Artist') and song['Artist'] == 'Sufjan Stevens':
