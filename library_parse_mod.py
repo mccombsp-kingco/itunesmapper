@@ -111,50 +111,53 @@ def convert_song_el(songs_gen):
     return (song_key, song_value_dict, False)
 
 def convert_list_el(lists_gen):
-    ''' Currently returns bogus data that ends the calling loop. It Should
-        use lists_gen.next() to step through the XML, find each play list create a string
-        of the name and a set of the Track ID integers then return them along with a flag
-        that indicates there is more or not.
+    ''' Uses lists_gen.next() to step through the XML, find each play list,
+        create a string of the name and a set of the Track ID integers then
+        return them. Values of None will be
+        returned to indicate the end of the play lists is reached.
     '''
     prev_el = lists_gen.next()
     #debug# childprint(prev_el)
     current_el = lists_gen.next()
     #debug# childprint(current_el)
 
-    while True: # loop looking for Name element of play list, and the array tag
-                # that hold all the track ids
-        if prev_el.tag == 'dict' and current_el.text == 'Name':
-            #debug# super_print("test is true")
+    try:
+        while True: # loop looking for Name element of play list, and the array
+                    # tag that hold all the track ids
+            if prev_el.tag == 'dict' and current_el.text == 'Name':
+                #debug# super_print("test is true")
+                current_el = lists_gen.next()
+                #debug# childprint(current_el)
+                plist_name = current_el.text
+            if prev_el.text == 'Playlist Items' and current_el.tag == 'array':
+                #debug# childprint(current_el)
+                plist_gen = current_el.iter()
+                break
+
+            prev_el = current_el
             current_el = lists_gen.next()
-            #debug# childprint(current_el)
-            plist_name = current_el.text
-        if prev_el.text == 'Playlist Items' and current_el.tag == 'array':
-            #debug# childprint(current_el)
-            plist_gen = current_el.iter()
-            break
 
-        prev_el = current_el
-        current_el = lists_gen.next()
+        #create the set of Track IDs for playlist
+        track_ids = set()
+        plist_prev_el = plist_gen.next()
+        #debug# print "plist_prev_el"
+        #debug# childprint(plist_prev_el)
 
-    #create the set of Trac IDs for playlist
-    track_ids = set()
-    prev_el = plist_gen.next()
-    #debug# print "prev_el"
-    #debug# childprint(prev_el)
+        for plist_current_el in plist_gen:
+            #debug# childprint(plist_current_el)
+            #debug# xxx = raw_input("wait")
+            if plist_prev_el.text == 'Track ID' and plist_current_el.tag == 'integer':
+                #debug# super_print("test is true")
+                track_ids.add(int(plist_current_el.text))
+                #debug# childprint(plist_current_el)
 
-    for current_el in plist_gen:
-        #debug# childprint(current_el)
-        #debug# xxx = raw_input("wait")
-        if prev_el.text == 'Track ID' and current_el.tag == 'integer':
-            #debug# super_print("test is true")
-            track_ids.add(int(current_el.text))
-            #debug# childprint(current_el)
+            plist_prev_el = plist_current_el        
 
-        prev_el = current_el        
-
-    the_end = True
+    except StopIteration: #This catches the end of the Play List elements
+        #debug# print "StopIteration caught"
+        return (None,None)
         
-    return (plist_name, track_ids, the_end)
+    return (plist_name, track_ids)
 
 def parse_XML():
     ''' parse_XML() takes no arguments. It currently loads a hard coded iTunes XML file.
@@ -225,13 +228,13 @@ def parse_XML():
     # dictionary with a key/value pair for each playlist. The key is a string containing
     # the play list name. The value is a set of Track IDs.
     while True:
-        (list_key, list_set, the_end) = convert_list_el(lists_gen)
-        #debug# super_print("list_key "+str(list_key))
-        #debug# super_print("list_set "+str(list_set))
+        (list_key, list_set) = convert_list_el(lists_gen)
+        if not list_key: # this indicates end of all play list arrays
+            break
         play_list_dict[list_key] = list_set
         #debug# super_print("pld2 "+str(play_list_dict))
-        if the_end: # this indicates end of all play list arrays
-            break
+        #debug# print "Play List: "+list_key+" - Length: "+str(len(list_set))
+
 
     return (songs_dict, play_list_dict)
 
@@ -306,7 +309,7 @@ if __name__ == '__main__':
     (all_songs, all_lists) = parse_XML()
     all_keys = collect_keys(all_songs)
 
-    super_print(str(all_keys))
+    #debug# super_print(str(all_keys))
     #debug# super_print(str(all_lists))
     #debug# super_print(str(all_songs[169498]))
     for pl_name in all_lists.keys():
