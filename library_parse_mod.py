@@ -24,10 +24,13 @@ import datetime
     element tupple. First a songs dictionary and second a play list dictionary.
     
     To do list:
-    1. Something like this:
+    1. Something things:
     for song in tester.values():
         if song.has_key('Artist') and song['Artist'] == 'Sufjan Stevens':
             print song['Album'], song['Name']
+    for song in pl_dict["Andre Bed Time"]:
+        print songs_dict[song]['Name']
+        print songs_dict[song]['Play Date UTC']
             
     2. Implement the library Explorer functionality
 
@@ -166,8 +169,10 @@ def parse_XML():
         Loops through the Tracks <dict> passing the iterator to song_value_dict which
         returns a 3 element tuple. The song_key (int), song_value_dict (dict of attribute
         elements for that song), and a boolean flag that indicates the end of the Tracks
-        <dict> and breaks the loop. Finally returns a dictionary with each song_key and
-        song_value_dict in it.
+        <dict> and breaks the loop. Finally returns a two object tupple. First a songs
+        dictionary with SongID intergers for keys and song attribute dictionaries for
+        values. Second a Play List Dictionary with string Names for keys, and set of
+        SongIDs for values.
     '''
 
     # initialize and load the iTunes data from the XML file.
@@ -192,7 +197,7 @@ def parse_XML():
             songs = child
         elif prev_text == "Playlists" and child.tag == "array":
             lists = child
-            super_print("Found the 'Playlists' <array> tag!")
+            #debug# super_print("Found the 'Playlists' <array> tag!")
         else:
             prev_text = child.text
 
@@ -215,7 +220,7 @@ def parse_XML():
         if the_end: # this indicates end of all song dicts
             break
 
-    super_print(str(len(songs_dict))+" songs in the songs_dict.")
+    #debug# super_print(str(len(songs_dict))+" songs in the songs_dict.")
 
     # Get ready to parse the Play Lists
     play_list_dict = dict()
