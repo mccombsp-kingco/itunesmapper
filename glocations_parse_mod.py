@@ -41,16 +41,27 @@ def retreive_json_from_file():
     #debug# print len(raw_json['locations'])
 
     for google_loc in raw_json['locations']:
-        out_tupple = (google_loc['latitudeE7'],google_loc['longitudeE7'],google_loc['timestampMs'])
+        out_tupple = (google_loc['latitudeE7'],google_loc['longitudeE7'],convert_date(google_loc['timestampMs']))
         google_loc_list.append(out_tupple)
 
     #debug# print len(google_loc_list)
 
     return google_loc_list
 
+def convert_date(time_stamp):
+    ''' call with one parameter a timestamp string from the google
+        locations json file. returns a datetime.datetime object.
+    '''
+    return datetime.datetime.fromtimestamp(int(time_stamp) / 1000)
+
 if __name__ == '__main__':
     print("Acquiring location data")
 
     google_loc_list = retreive_json_from_file()
 
-    print str(len(google_loc_list))+" locations retrieved"
+    loc_length = len(google_loc_list)
+
+    print str(loc_length)+" locations retrieved"
+
+    print google_loc_list[0][2]
+    print google_loc_list[loc_length-1][2]
