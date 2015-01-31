@@ -310,7 +310,7 @@ def collect_keys(songs_dict):
     return song_keys
 
 if __name__ == '__main__':
-    super_print("Welcome to the Library Explorer!")
+    super_print("Acquiring iTunes data")
     (all_songs, all_lists) = parse_XML()
     all_keys = collect_keys(all_songs)
 
