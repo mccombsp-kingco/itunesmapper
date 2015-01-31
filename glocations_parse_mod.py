@@ -41,7 +41,8 @@ def retreive_json_from_file():
     #debug# print len(raw_json['locations'])
 
     for google_loc in raw_json['locations']:
-        out_tupple = (google_loc['latitudeE7'],google_loc['longitudeE7'],convert_date(google_loc['timestampMs']))
+        out_tupple = (google_loc['latitudeE7'],google_loc['longitudeE7'],
+                      convert_date(google_loc['timestampMs']))
         google_loc_list.append(out_tupple)
 
     #debug# print len(google_loc_list)
