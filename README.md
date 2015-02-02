@@ -9,7 +9,11 @@ I'm using xml.etree.ElementTree to parse the iTunes XML file. I'm using json to 
 
 Currently I have code to turn 'iTunes Music Library.xml' into a dictionary of Tracks and a dictionary of Play Lists. Currently all play Lists are parsed including Library which is not exposed in the iTunes user interface.
 
-I have begun work on extracting the location data from google. Currently the user will need to obtain the data from google themselves. I'm not likely to implement the screen scraping that seems to be neccesary to automat that.
+Currently I have code to extract the location data from google. The user will need to obtain the data from google themselves. I'm not likely to implement the screen scraping that seems to be neccesary to automate that.
+
+I haven't found an obvous library for doing the spatial computations for interpolating position between time points. Found haversine implementations online to compute distance, but not to calculate bearing, and to locate a new point with bearing and distance.
+
+I'm considering using ogr and fiona to export geoJSON output, but may just construct the files using basic string and file . 
 
 I'm Planning to create a geoJSON file and use GitHub to display results. See: https://github.com/keum/data_display/blob/master/cso_test_file.geojson 
 
