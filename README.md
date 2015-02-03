@@ -19,17 +19,17 @@ I want to interpolate locations between two time points to map the time a song w
 
 3. Given a latitude/longitude coordinate, a bearing, and a distance; return a latitude/longitude coordinate. I found this function in geopy. See example: http://stackoverflow.com/questions/7222382/get-lat-long-given-current-point-distance-and-bearing
 
->import geopy
-from geopy.distance import VincentyDistance
-
-># given: lat1, lon1, b = bearing in degrees, d = distance in kilometers
-
->origin = geopy.Point(lat1, lon1)
-destination = VincentyDistance(kilometers=d).destination(origin, b)
-
->lat2, lon2 = destination.latitude, destination.longitude
-
-I'm considering using ogr and fiona to export geoJSON output, but may just construct the files using basic string and file . 
+  import geopy
+  from geopy.distance import VincentyDistance
+  
+  # given: lat1, lon1, b = bearing in degrees, d = distance in kilometers
+  
+  origin = geopy.Point(lat1, lon1)
+  destination = VincentyDistance(kilometers=d).destination(origin, b)
+  
+  lat2, lon2 = destination.latitude, destination.longitude
+  
+I'm considering using ogr and fiona to export geoJSON output, but may just construct the files using basic string and file.
 
 I'm Planning to create a geoJSON file and use GitHub to display results. See: https://github.com/keum/data_display/blob/master/cso_test_file.geojson 
 
