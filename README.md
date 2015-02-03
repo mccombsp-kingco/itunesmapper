@@ -18,7 +18,7 @@ I want to interpolate locations between two time points to map the time a song w
 2. Given two latitude/longitude coordinate pairs; return a bearing. I found this function in a gist: https://gist.github.com/jeromer/2005586.
 
 3. Given a latitude/longitude coordinate, a bearing, and a distance; return a latitude/longitude coordinate. I found this function in geopy. See example: http://stackoverflow.com/questions/7222382/get-lat-long-given-current-point-distance-and-bearing
-_
+code:
     import geopy
     from geopy.distance import VincentyDistance
     
