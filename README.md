@@ -11,7 +11,23 @@ Currently I have code to turn 'iTunes Music Library.xml' into a dictionary of Tr
 
 Currently I have code to extract the location data from google. The user will need to obtain the data from google themselves. I'm not likely to implement the screen scraping that seems to be neccesary to automate that.
 
-I haven't found an obvous library for doing the spatial computations for interpolating position between time points. Found haversine implementations online to compute distance, but not to calculate bearing, and to locate a new point with bearing and distance.
+I want to interpolate locations between two time points to map the time a song was played in iTunes. To accomplish this requires three tasks:
+
+1. Given two latitude/longitude coordinate pairs; return a distance. I found this function in the geopy module: https://github.com/geopy/geopy , and in a gist: https://gist.github.com/jeromer/1883777
+
+2. Given two latitude/longitude coordinate pairs; return a bearing. I found this function in a gist: https://gist.github.com/jeromer/2005586.
+
+3. Given a latitude/longitude coordinate, a bearing, and a distance; return a latitude/longitude coordinate. I found this function in geopy. See example: http://stackoverflow.com/questions/7222382/get-lat-long-given-current-point-distance-and-bearing
+
+>import geopy
+from geopy.distance import VincentyDistance
+
+># given: lat1, lon1, b = bearing in degrees, d = distance in kilometers
+
+>origin = geopy.Point(lat1, lon1)
+destination = VincentyDistance(kilometers=d).destination(origin, b)
+
+>lat2, lon2 = destination.latitude, destination.longitude
 
 I'm considering using ogr and fiona to export geoJSON output, but may just construct the files using basic string and file . 
 
