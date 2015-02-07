@@ -3,7 +3,7 @@
   "features": [
     {
       "type": "Feature",
-      "properties": {mhname: "2015-01-02 20:41:15"},
+      "properties": {},
       "geometry": {
         "type": "Point",
         "coordinates": [
@@ -14,7 +14,7 @@
     },
     {
       "type": "Feature",
-      "properties": {mhname: "2015-01-09 20:42:15"},
+      "properties": {},
       "geometry": {
         "type": "Point",
         "coordinates": [
@@ -25,7 +25,7 @@
     },
     {
       "type": "Feature",
-      "properties": {mhname: "2015-01-29 20:31:33"},
+      "properties": {},
       "geometry": {
         "type": "Point",
         "coordinates": [
