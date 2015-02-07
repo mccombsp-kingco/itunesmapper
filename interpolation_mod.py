@@ -5,10 +5,10 @@ time_point = datetime.datetime(2015, 1, 9, 20, 42, 15)
 print "time_point: " + str(time_point)
 
 loc_tups = [(47.7644685, -122.3128514, datetime.datetime(2015, 1, 2, 20, 41, 15)),
-             (47.7644686, -122.3128490, datetime.datetime(2015, 1, 29, 20, 36, 29)),
-             (47.7644686, -122.3128513, datetime.datetime(2015, 1, 29, 20, 31, 33)),
-             (47.7644697, -122.3128505, datetime.datetime(2015, 1, 29, 20, 45, 57)),
-             (47.7644689, -122.3128500, datetime.datetime(2015, 1, 29, 20, 45, 42))]
+            (47.7644339, -122.3128811, datetime.datetime(2015, 1, 14, 20, 36, 29)),
+            (47.7644686, -122.3128513, datetime.datetime(2015, 1, 29, 20, 31, 33)),
+            (47.7644697, -122.3128505, datetime.datetime(2015, 1, 29, 20, 45, 57)),
+            (47.7644689, -122.3128500, datetime.datetime(2015, 1, 29, 20, 45, 42))]
 
 loc_tups = sorted(loc_tups, key=lambda loc: loc[2])
 
@@ -34,10 +34,13 @@ cartesian_dist = math.sqrt(
 cart_slope = (float(lats[order_pos]-lats[order_pos-1])/
                    (lons[order_pos]-lons[order_pos-1]))
 
-cart_konstant = (cartesian_dist / math.sqrt(1+(cart_slope**2)))
+cart_konstant = ((cartesian_dist * before_ratio) / math.sqrt(1+(cart_slope**2)))*-1
 
 interp_loc = ((lats[order_pos-1]+cart_konstant),
              (lons[order_pos-1]+(cart_slope*cart_konstant)))
+
+check_slope = (float(interp_loc[0]-lats[order_pos-1])/
+                    (interp_loc[1]-lons[order_pos-1]))
 
 print locs[order_pos - 1], before
 print locs[order_pos], after
@@ -45,6 +48,8 @@ print "Time between two locations:", locs_time_interval
 print "Time between before location and time point:", before_time_point_interval
 print "Ratio of before - time point to before - after:", before_ratio
 print "Cartesian distance in 'degrees':", cartesian_dist
+print "Cartesian interpolated distance in 'degrees':", (cartesian_dist * before_ratio)
 print "Cartesian slope is:", cart_slope
 print "Cartesian Konstant is:", cart_konstant
-print "New location is", interp_loc
+print "New location is: ", interp_loc
+print "Check slope is: ", check_slope 

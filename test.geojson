@@ -3,7 +3,7 @@
   "features": [
     {
       "type": "Feature",
-      "properties": {},
+      "properties": {"date": "2015-01-02 20:41:15"},
       "geometry": {
         "type": "Point",
         "coordinates": [
@@ -14,23 +14,23 @@
     },
     {
       "type": "Feature",
-      "properties": {},
+      "properties": {"date": "2015-01-09 20:42:15"},
       "geometry": {
         "type": "Point",
         "coordinates": [
-          -122.3128513,
-          47.764468599999994
+          -122.31287159090529,
+          47.76445116850038
         ]
       }
     },
     {
       "type": "Feature",
-      "properties": {},
+      "properties": {"date": "2015-01-14 20:36:29"},
       "geometry": {
         "type": "Point",
         "coordinates": [
-          -122.3128513,
-          47.7644686
+          -122.3128811,
+          47.7644339
         ]
       }
     }
