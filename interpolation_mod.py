@@ -24,12 +24,27 @@ before = loc_dates[order_pos -1]
 after = loc_dates[order_pos]
 locs_time_interval = after - before
 before_time_point_interval = time_point - before
-before_ratio = (float(before_time_point_interval.days)*86400+before_time_point_interval.seconds)/(locs_time_interval.days*86400+locs_time_interval.seconds)
-cartesian_dist = math.sqrt(((lats[order_pos]-lats[order_pos-1])**2)+((lons[order_pos]-lons[order_pos-1])**2))
+before_ratio = ((float(before_time_point_interval.days)*86400+
+                      before_time_point_interval.seconds)/
+                     (locs_time_interval.days*86400+locs_time_interval.seconds))
+cartesian_dist = math.sqrt(
+                 ((lats[order_pos]-lats[order_pos-1])**2)+
+                 ((lons[order_pos]-lons[order_pos-1])**2))
+ 
+cart_slope = (float(lats[order_pos]-lats[order_pos-1])/
+                   (lons[order_pos]-lons[order_pos-1]))
+
+cart_konstant = (cartesian_dist / math.sqrt(1+(cart_slope**2)))
+
+interp_loc = ((lats[order_pos-1]+cart_konstant),
+             (lons[order_pos-1]+(cart_slope*cart_konstant)))
 
 print locs[order_pos - 1], before
 print locs[order_pos], after
-print "Time between two locations: ", locs_time_interval
-print "Time between before location and time point: ", before_time_point_interval
-print "Ratio of before - time point to before - after: ", before_ratio
+print "Time between two locations:", locs_time_interval
+print "Time between before location and time point:", before_time_point_interval
+print "Ratio of before - time point to before - after:", before_ratio
 print "Cartesian distance in 'degrees':", cartesian_dist
+print "Cartesian slope is:", cart_slope
+print "Cartesian Konstant is:", cart_konstant
+print "New location is", interp_loc
