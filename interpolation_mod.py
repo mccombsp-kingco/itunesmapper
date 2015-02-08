@@ -1,51 +1,83 @@
+# Portion of iTunesMapper. A project to parse the iTunes XML, import google
+# location data, and create a map of where you listened to a subset of songs
+
+# Copyright (C) 2015  paul mccombs
+# contact at https://github.com/mccombsp-kingco/itunesmapper
+
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+
+# You should have received a copy of the GNU General Public License
+# along with this program.  If not, see http://www.gnu.org/licenses/ .
+
 import datetime, bisect, math
 
-time_point = datetime.datetime(2015, 1, 9, 20, 42, 15)
+''' If you load this as a module call cartesian_interpolation().
+    cartesian_interpolation() takes a point in time and a list of tupples
+    representing 
+    timestamped locations. Each tupple contains a decimal degree latitude
+    coordinate (float), a longitude coordinate (float), and datetime object.
+    cartesian_interpolation() returns a latitude, longitude coordinate (tupple of
+    floats).
+    
+    To do list:
+    1. create an option for using spherical coordinate geometry to determine the
+       interpolated location.
+'''
 
-print "time_point: " + str(time_point)
+def cartesian_interpolation(time_point, loc_tups):
+    loc_tups = sorted(loc_tups, key=lambda loc: loc[2])
 
-loc_tups = [(47.7644685, -122.3128514, datetime.datetime(2015, 1, 2, 20, 41, 15)),
-            (47.7644339, -122.3128811, datetime.datetime(2015, 1, 14, 20, 36, 29)),
-            (47.7644686, -122.3128513, datetime.datetime(2015, 1, 29, 20, 31, 33)),
-            (47.7644697, -122.3128505, datetime.datetime(2015, 1, 29, 20, 45, 57)),
-            (47.7644689, -122.3128500, datetime.datetime(2015, 1, 29, 20, 45, 42))]
+    lats, lons, loc_dates = zip(*loc_tups)
 
-loc_tups = sorted(loc_tups, key=lambda loc: loc[2])
+    locs = zip(lats, lons)
 
-lats, lons, loc_dates = zip(*loc_tups)
+    for date in loc_tups:
+        print date[2]
 
-locs = zip(lats, lons)
+    order_pos = bisect.bisect(loc_dates, time_point)
+    before = loc_dates[order_pos -1]
+    after = loc_dates[order_pos]
+    locs_time_interval = after - before
+    before_time_point_interval = time_point - before
+    before_ratio = ((float(before_time_point_interval.days)*86400+
+                          before_time_point_interval.seconds)/
+                         (locs_time_interval.days*86400+locs_time_interval.seconds))
+    lat_dist = (lats[order_pos]-lats[order_pos-1])
+    lon_dist = (lons[order_pos]-lons[order_pos-1])
+    interp_lat = lats[order_pos-1] + (lat_dist*before_ratio)
+    interp_lon = lons[order_pos-1] + (lon_dist*before_ratio)
+    interp_loc = (interp_lat,interp_lon)
 
-for date in loc_tups:
-    print date[2]
 
-order_pos = bisect.bisect(loc_dates, time_point)
-before = loc_dates[order_pos -1]
-after = loc_dates[order_pos]
-locs_time_interval = after - before
-before_time_point_interval = time_point - before
-before_ratio = ((float(before_time_point_interval.days)*86400+
-                      before_time_point_interval.seconds)/
-                     (locs_time_interval.days*86400+locs_time_interval.seconds))
-lat_dist = (lats[order_pos]-lats[order_pos-1])
-lon_dist = (lons[order_pos]-lons[order_pos-1])
-interp_lat = lats[order_pos-1] + (lat_dist*before_ratio)
-interp_lon = lons[order_pos-1] + (lon_dist*before_ratio)
-interp_loc = (interp_lat,interp_lon)
- 
-# cart_slope = (float(lats[order_pos]-lats[order_pos-1])/
-#                    (lons[order_pos]-lons[order_pos-1]))
-# cart_konstant = ((cartesian_dist * before_ratio) / math.sqrt(1+(cart_slope**2)))*-1
-# interp_loc = ((lats[order_pos-1]+cart_konstant),
-#              (lons[order_pos-1]+(cart_slope*cart_konstant)))
-# check_slope = (float(interp_loc[0]-lats[order_pos-1])/
-#                     (interp_loc[1]-lons[order_pos-1]))
+    print locs[order_pos - 1], before
+    print locs[order_pos], after
+    print "Time between two locations:", locs_time_interval
+    print "Time between before location and time point:", before_time_point_interval
+    print "Ratio of before - time point to before - after:", before_ratio
+    print "Latitude distance in 'degrees':", lat_dist
+    print "Longitude distance in 'degrees':", lon_dist
 
-print locs[order_pos - 1], before
-print locs[order_pos], after
-print "Time between two locations:", locs_time_interval
-print "Time between before location and time point:", before_time_point_interval
-print "Ratio of before - time point to before - after:", before_ratio
-print "Latitude distance in 'degrees':", lat_dist
-print "Longitude distance in 'degrees':", lon_dist
-print "New location is: ", interp_loc
+    return interp_loc
+
+if __name__ == '__main__':
+    time_point = datetime.datetime(2015, 1, 9, 20, 42, 15)
+
+    print "time_point: " + str(time_point)
+
+    loc_tups = [(47.7644685, -122.3128514, datetime.datetime(2015, 1, 2, 20, 41, 15)),
+                (47.7644339, -122.3128811, datetime.datetime(2015, 1, 14, 20, 36, 29)),
+                (47.7644686, -122.3128513, datetime.datetime(2015, 1, 29, 20, 31, 33)),
+                (47.7644697, -122.3128505, datetime.datetime(2015, 1, 29, 20, 45, 57)),
+                (47.7644689, -122.3128500, datetime.datetime(2015, 1, 29, 20, 45, 42))]
+
+    interp_loc = cartesian_interpolation(time_point,loc_tups)
+
+    print "New location is: ", interp_loc

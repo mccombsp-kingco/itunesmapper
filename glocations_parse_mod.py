@@ -17,7 +17,8 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see http://www.gnu.org/licenses/ .
 
-''' If you load this as a module call ????() with no arguments to get back a list of
+''' If you load this as a module call retreive_json_from_file() with no arguments
+    to get back a list of
     tupples representing timestamped locations that are retrieved from a Google
     Takeout LocationHistory.json file.
     
