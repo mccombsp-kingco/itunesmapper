@@ -39,8 +39,8 @@ def cartesian_interpolation(time_point, loc_tups):
 
     locs = zip(lats, lons)
 
-    for date in loc_tups:
-        print date[2]
+    #debug# for date in loc_tups:
+    #debug#     print date[2]
 
     order_pos = bisect.bisect(loc_dates, time_point)
     before = loc_dates[order_pos -1]
@@ -57,20 +57,34 @@ def cartesian_interpolation(time_point, loc_tups):
     interp_loc = (interp_lat,interp_lon)
 
 
-    print locs[order_pos - 1], before
-    print locs[order_pos], after
-    print "Time between two locations:", locs_time_interval
-    print "Time between before location and time point:", before_time_point_interval
-    print "Ratio of before - time point to before - after:", before_ratio
-    print "Latitude distance in 'degrees':", lat_dist
-    print "Longitude distance in 'degrees':", lon_dist
+    #debug# print locs[order_pos - 1], before
+    #debug# print locs[order_pos], after
+    #debug# print "Time between two locations:", locs_time_interval
+    #debug# print "Time between before location and time point:", before_time_point_interval
+    #debug# print "Ratio of before - time point to before - after:", before_ratio
+    #debug# print "Latitude distance in 'degrees':", lat_dist
+    #debug# print "Longitude distance in 'degrees':", lon_dist
 
     return interp_loc
 
 if __name__ == '__main__':
+    
+    import library_parse_mod
+
+    # Use library_parse_mod to bring in the users iTunes data.
+    songs, plists = library_parse_mod.parse_XML()
+
+    #debug# for pl_name in plists:
+    #debug#     print "Play List: "+pl_name+" - Length: "+str(len(plists[pl_name]))
+
+    for song in plists['Andre Bed Time']:
+        print datetime.datetime.fromtimestamp(songs[song]['Play Date']),songs[song]['Play Date UTC'] 
+
     time_point = datetime.datetime(2015, 1, 9, 20, 42, 15)
 
-    print "time_point: " + str(time_point)
+
+
+    #debug# print "time_point: " + str(time_point)
 
     loc_tups = [(47.7644685, -122.3128514, datetime.datetime(2015, 1, 2, 20, 41, 15)),
                 (47.7644339, -122.3128811, datetime.datetime(2015, 1, 14, 20, 36, 29)),
