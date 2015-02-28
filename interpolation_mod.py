@@ -57,8 +57,8 @@ def cartesian_interpolation(time_point, loc_tups):
     interp_loc = (interp_lat,interp_lon)
 
 
-    #debug# print locs[order_pos - 1], before
-    #debug# print locs[order_pos], after
+    print locs[order_pos - 1], before
+    print locs[order_pos], after
     #debug# print "Time between two locations:", locs_time_interval
     #debug# print "Time between before location and time point:", before_time_point_interval
     #debug# print "Ratio of before - time point to before - after:", before_ratio
@@ -70,32 +70,28 @@ def cartesian_interpolation(time_point, loc_tups):
 if __name__ == '__main__':
     
     import library_parse_mod
+    import glocations_parse_mod
 
     # Use library_parse_mod to bring in the users iTunes data.
     songs, plists = library_parse_mod.parse_XML()
 
-    #debug# for pl_name in plists:
-    #debug#     print "Play List: "+pl_name+" - Length: "+str(len(plists[pl_name]))
+    # Use glocations_parse_mod to bring in the Google Locations data.
+    loc_tups = glocations_parse_mod.retreive_json_from_file()
+    print len(loc_tups)
+    print loc_tups[:2]
 
     for song in plists['Andre Bed Time']:
-        play_date = datetime.datetime.fromtimestamp(songs[song]['Play Date'])
         play_date_UTC = songs[song]['Play Date UTC']
-        raw_delta = play_date - play_date_UTC
+        interp_loc = cartesian_interpolation(play_date_UTC,loc_tups)
 
-        print songs[song]['Play Date'], raw_delta, type(raw_delta) #, datetime.timedelta(raw_delta)
-
-    time_point = datetime.datetime(2015, 1, 9, 20, 42, 15)
-
+        print songs[song]['Name']," was last played at: ", interp_loc        
 
 
     #debug# print "time_point: " + str(time_point)
 
-    loc_tups = [(47.7644685, -122.3128514, datetime.datetime(2015, 1, 2, 20, 41, 15)),
-                (47.7644339, -122.3128811, datetime.datetime(2015, 1, 14, 20, 36, 29)),
-                (47.7644686, -122.3128513, datetime.datetime(2015, 1, 29, 20, 31, 33)),
-                (47.7644697, -122.3128505, datetime.datetime(2015, 1, 29, 20, 45, 57)),
-                (47.7644689, -122.3128500, datetime.datetime(2015, 1, 29, 20, 45, 42))]
+    # loc_tups = [(47.7644685, -122.3128514, datetime.datetime(2015, 1, 2, 20, 41, 15)),
+    #             (47.7644339, -122.3128811, datetime.datetime(2015, 1, 14, 20, 36, 29)),
+    #             (47.7644686, -122.3128513, datetime.datetime(2015, 1, 29, 20, 31, 33)),
+    #             (47.7644697, -122.3128505, datetime.datetime(2015, 1, 29, 20, 45, 57)),
+    #             (47.7644689, -122.3128500, datetime.datetime(2015, 1, 29, 20, 45, 42))]
 
-    interp_loc = cartesian_interpolation(time_point,loc_tups)
-
-    print "New location is: ", interp_loc

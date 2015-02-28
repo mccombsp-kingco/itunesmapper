@@ -31,6 +31,29 @@
     any messages.
 '''
 def geojson(prop_list,data_list, file_name, path_name):
+    #                 Example output
+    # ================================================
+    # {
+    #   "type": "FeatureCollection",
+    #   "features": [
+    #     {
+    #       "type": "Feature",
+    #       "properties": {
+    #         "marker-color": "#ff2f92",
+    #         "marker-size": "medium",
+    #         "marker-symbol": "",
+    #         "name": "Little Bird, Little Bird"
+    #       },
+    #       "geometry": {
+    #         "type": "Point",
+    #         "coordinates": [
+    #           -122.27971970295104,
+    #           47.70029246496672
+    #         ]
+    #       }
+    #     }
+    #   ]
+    # }
     return (0,None,"Not implemented")
 
 if __name__ == '__main__':
