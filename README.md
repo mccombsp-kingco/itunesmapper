@@ -28,9 +28,14 @@ code below
     destination = VincentyDistance(kilometers=d).destination(origin, b)
     lat2, lon2 = destination.latitude, destination.longitude
 
-I'm considering using ogr and fiona to export geoJSON output, but may just construct the files using basic string and file.
+I'm considering using ogr and fiona to export geoJSON output, but may just construct the files using basic string and file functions.
 
 I'm Planning to create a geoJSON file and use GitHub to display results. See: https://github.com/keum/data_display/blob/master/cso_test_file.geojson 
+
+Data notes:
+-----------
+
+The "Play Date" tags from the iTunes XML use an interger that appears to be exactly 24106 days, 9 hours later than the "Play Date UTC" tags if you use the datetime.datetime.fromtimestamp() function to convert it. I haven't found an explanation from googling.
 
 Historic notes:
 ---------------

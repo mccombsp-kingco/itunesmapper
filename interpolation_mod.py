@@ -78,7 +78,11 @@ if __name__ == '__main__':
     #debug#     print "Play List: "+pl_name+" - Length: "+str(len(plists[pl_name]))
 
     for song in plists['Andre Bed Time']:
-        print datetime.datetime.fromtimestamp(songs[song]['Play Date']),songs[song]['Play Date UTC'] 
+        play_date = datetime.datetime.fromtimestamp(songs[song]['Play Date'])
+        play_date_UTC = songs[song]['Play Date UTC']
+        raw_delta = play_date - play_date_UTC
+
+        print songs[song]['Play Date'], raw_delta, type(raw_delta) #, datetime.timedelta(raw_delta)
 
     time_point = datetime.datetime(2015, 1, 9, 20, 42, 15)
 
