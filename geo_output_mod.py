@@ -86,8 +86,8 @@ def geojson(prop_list, data_list, file_name, path_name):
             # Set the return status to 1 indicating a successful file write.
             return_status = 1
     except:
-        return_message = return_message+'\n'+'Exception:\n'+str(sys.exc_info())
-        raise
+        return_message = return_message+'Exception:\n'+str(sys.exc_info()[1])+'\n'
+        #debug# raise
         
 
     #                 Example output
