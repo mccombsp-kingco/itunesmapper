@@ -78,6 +78,7 @@ if __name__ == '__main__':
     
     import library_parse_mod
     import glocations_parse_mod
+    import geo_output_mod
 
     # Use library_parse_mod to bring in the users iTunes data.
     songs, plists = library_parse_mod.parse_XML()
@@ -93,9 +94,22 @@ if __name__ == '__main__':
     # Use glocations_parse_mod to bring in the Google Locations data.
     gloc_tups = glocations_parse_mod.retreive_json_from_file()
 
+    output_properties = ["Name","Artist","Play Date","Album"]
+    output_filename = "AndreBedTime.geojson"
+    output_path = "."
+    output_data = []
+
     for song in plists['Andre Bed Time']:
         play_date_UTC = songs[song]['Play Date UTC']
-        #debug# print play_date_UTC
         interp_loc = cartesian_interpolation(play_date_UTC,gloc_tups)
 
-        print songs[song]['Name']," -- approximate location of last play:", interp_loc        
+        output_data.append((interp_loc[0],interp_loc[1],songs[song]['Name'],
+                            songs[song]['Artist'],songs[song]['Play Date UTC'],
+                            songs[song]['Album']))
+
+    #debug# print output_data 
+    return_obj = geo_output_mod.geojson(output_properties, output_data,
+                                        output_filename, output_path)
+
+    if return_obj[0] == 0:
+        print return_obj[2]    

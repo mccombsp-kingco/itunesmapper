@@ -314,7 +314,7 @@ if __name__ == '__main__':
     (all_songs, all_lists) = parse_XML()
     all_keys = collect_keys(all_songs)
 
-    #debug# super_print(str(all_keys))
+    super_print(str(all_keys))
     #debug# super_print(str(all_lists))
     #debug# super_print(str(all_songs[169498]))
     for pl_name in all_lists.keys():

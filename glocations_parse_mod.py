@@ -34,7 +34,7 @@ def retreive_json_from_file():
     ''' Call with no parameters. Returns a list of tupples in the form
         (lattitude, longitude, timestamp)
     '''
-    with open ("LocationHistory.json") as handle:
+    with open("LocationHistory.json") as handle:
         raw_json = json.load(handle)
 
     google_loc_list = []

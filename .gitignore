@@ -4,3 +4,4 @@ test.xml
 LocationHistory.json
 glocations_parse_mod.pyc
 interpolation_mod.pyc
+geo_output_mod.pyc
