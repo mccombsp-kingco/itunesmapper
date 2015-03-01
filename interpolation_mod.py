@@ -33,37 +33,44 @@ import datetime, bisect, math
 '''
 
 def cartesian_interpolation(time_point, loc_tups):
+
     loc_tups = sorted(loc_tups, key=lambda loc: loc[2])
 
     lats, lons, loc_dates = zip(*loc_tups)
 
     locs = zip(lats, lons)
 
-    #debug# for date in loc_tups:
-    #debug#     print date[2]
+    after_pos = bisect.bisect(loc_dates, time_point)
+    #debug# print "After Position", after_pos
+    #debug# print "Length of Locs list", len(loc_dates)
 
-    order_pos = bisect.bisect(loc_dates, time_point)
-    before = loc_dates[order_pos -1]
-    after = loc_dates[order_pos]
-    locs_time_interval = after - before
-    before_time_point_interval = time_point - before
+    before_pos = after_pos-1
+
+    # Check for dates that are before the location dates.
+    if after_pos == 0:
+        print "No data before"
+        #debug# print locs[after_pos], loc_dates[after_pos]
+        return locs[after_pos]
+
+    # Check for dates that are after the location dates.
+    if after_pos == len(loc_dates):
+        #debug# print locs[before_pos], loc_dates[before_pos]
+        print "No data after"
+        return locs[before_pos]
+
+    #debug# print locs[before_pos], loc_dates[before_pos]
+    #debug# print locs[after_pos], loc_dates[after_pos]
+
+    locs_time_interval = loc_dates[after_pos] - loc_dates[before_pos]
+    before_time_point_interval = time_point - loc_dates[before_pos]
     before_ratio = ((float(before_time_point_interval.days)*86400+
                           before_time_point_interval.seconds)/
                          (locs_time_interval.days*86400+locs_time_interval.seconds))
-    lat_dist = (lats[order_pos]-lats[order_pos-1])
-    lon_dist = (lons[order_pos]-lons[order_pos-1])
-    interp_lat = lats[order_pos-1] + (lat_dist*before_ratio)
-    interp_lon = lons[order_pos-1] + (lon_dist*before_ratio)
+    lat_dist = (lats[after_pos]-lats[before_pos])
+    lon_dist = (lons[after_pos]-lons[before_pos])
+    interp_lat = lats[before_pos] + (lat_dist*before_ratio)
+    interp_lon = lons[before_pos] + (lon_dist*before_ratio)
     interp_loc = (interp_lat,interp_lon)
-
-
-    print locs[order_pos - 1], before
-    print locs[order_pos], after
-    #debug# print "Time between two locations:", locs_time_interval
-    #debug# print "Time between before location and time point:", before_time_point_interval
-    #debug# print "Ratio of before - time point to before - after:", before_ratio
-    #debug# print "Latitude distance in 'degrees':", lat_dist
-    #debug# print "Longitude distance in 'degrees':", lon_dist
 
     return interp_loc
 
@@ -75,23 +82,20 @@ if __name__ == '__main__':
     # Use library_parse_mod to bring in the users iTunes data.
     songs, plists = library_parse_mod.parse_XML()
 
+    # some sample data
+    # gloc_tups = [(47.7644685, -122.3128514, datetime.datetime(2014, 11, 30, 20, 41, 15)),
+    #             (47.7644339, -122.3128811, datetime.datetime(2014, 12, 14, 20, 36, 29)),
+    #             (47.7644686, -122.3128513, datetime.datetime(2014, 10, 9, 20, 31, 33)),
+    #             (47.7644697, -122.3128505, datetime.datetime(2014, 9, 2, 11, 45, 57)),
+    #             (47.7644689, -122.3128500, datetime.datetime(2014, 6, 29, 20, 45, 42))]
+
+
     # Use glocations_parse_mod to bring in the Google Locations data.
-    loc_tups = glocations_parse_mod.retreive_json_from_file()
-    print len(loc_tups)
-    print loc_tups[:2]
+    gloc_tups = glocations_parse_mod.retreive_json_from_file()
 
     for song in plists['Andre Bed Time']:
         play_date_UTC = songs[song]['Play Date UTC']
-        interp_loc = cartesian_interpolation(play_date_UTC,loc_tups)
+        #debug# print play_date_UTC
+        interp_loc = cartesian_interpolation(play_date_UTC,gloc_tups)
 
-        print songs[song]['Name']," was last played at: ", interp_loc        
-
-
-    #debug# print "time_point: " + str(time_point)
-
-    # loc_tups = [(47.7644685, -122.3128514, datetime.datetime(2015, 1, 2, 20, 41, 15)),
-    #             (47.7644339, -122.3128811, datetime.datetime(2015, 1, 14, 20, 36, 29)),
-    #             (47.7644686, -122.3128513, datetime.datetime(2015, 1, 29, 20, 31, 33)),
-    #             (47.7644697, -122.3128505, datetime.datetime(2015, 1, 29, 20, 45, 57)),
-    #             (47.7644689, -122.3128500, datetime.datetime(2015, 1, 29, 20, 45, 42))]
-
+        print songs[song]['Name']," -- approximate location of last play:", interp_loc        
