@@ -69,10 +69,23 @@ def geojson(prop_list, data_list, file_name, path_name):
                 first_record = False
 
                 # write the prelinary bits of one Feature
+                feat_start_list =['     {',
+                                  '       "type": "Feature",',
+                                  '       "properties": {',
+                                  '         "marker-color": "#ff2f92",',
+                                  '         "marker-size": "medium",',
+                                  '         "marker-symbol": "",']
+                for line in feat_start_list:
+                    write_line(handle,line)
 
                 # write the properties from the records
-                for record_prop in zip(prop_list,record[2:]):
-                    write_line(handle,str(record_prop))
+                properties_list = zip(prop_list,record[2:])
+                
+                for record_prop in properties_list:
+                    prop_line = '         "'+record_prop[0]+'": "'+record_prop[1]+'",'
+                    write_line(handle,prop_line)
+
+                write_line(handle,'       },')
 
                 # write the begining of the geometry portion of the feature
 
