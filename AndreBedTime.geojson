@@ -1,49 +1,112 @@
 {
   "type": "FeatureCollection",
   "features": [
-('Name', 'Little Bird, Little Bird')
-('Artist', 'Elizabeth Mitchell')
-('Play Date', datetime.datetime(2014, 9, 2, 10, 42, 47))
-('Album', 'You Are My Little Bird')
+     {
+       "type": "Feature",
+       "properties": {
+         "marker-color": "#ff2f92",
+         "marker-size": "medium",
+         "marker-symbol": "",
+         "Name": "Little Bird, Little Bird",
+         "Artist": "Elizabeth Mitchell",
+         "Play Date": "2014-09-02 10:42:47",
+         "Album": "You Are My Little Bird",
+       }
 ,
-('Name', 'Moonshadow')
-('Artist', 'Cat Stevens')
-('Play Date', datetime.datetime(2014, 5, 29, 15, 45, 32))
-('Album', 'Greatest Hits')
+     {
+       "type": "Feature",
+       "properties": {
+         "marker-color": "#ff2f92",
+         "marker-size": "medium",
+         "marker-symbol": "",
+         "Name": "Moonshadow",
+         "Artist": "Cat Stevens",
+         "Play Date": "2014-05-29 15:45:32",
+         "Album": "Greatest Hits",
+       }
 ,
-('Name', "Guten Abend Gute Nacht (Brahm's Lullabye)")
-('Artist', 'Roger Whittaker')
-('Play Date', datetime.datetime(2014, 12, 23, 21, 1, 27))
-('Album', "It's A Veradale Christmas")
+     {
+       "type": "Feature",
+       "properties": {
+         "marker-color": "#ff2f92",
+         "marker-size": "medium",
+         "marker-symbol": "",
+         "Name": "Guten Abend Gute Nacht (Brahm's Lullabye)",
+         "Artist": "Roger Whittaker",
+         "Play Date": "2014-12-23 21:01:27",
+         "Album": "It's A Veradale Christmas",
+       }
 ,
-('Name', 'If Moon was Cookie')
-('Artist', 'Cookie Monster')
-('Play Date', datetime.datetime(2014, 11, 13, 6, 33, 14))
-('Album', '"C" is for Cookie:  Cookie\'s Favorite Songs')
+     {
+       "type": "Feature",
+       "properties": {
+         "marker-color": "#ff2f92",
+         "marker-size": "medium",
+         "marker-symbol": "",
+         "Name": "If Moon was Cookie",
+         "Artist": "Cookie Monster",
+         "Play Date": "2014-11-13 06:33:14",
+         "Album": ""C" is for Cookie:  Cookie's Favorite Songs",
+       }
 ,
-('Name', 'Peace Like A River')
-('Artist', 'Elizabeth Mitchell')
-('Play Date', datetime.datetime(2014, 9, 2, 10, 54, 35))
-('Album', 'You Are My Little Bird')
+     {
+       "type": "Feature",
+       "properties": {
+         "marker-color": "#ff2f92",
+         "marker-size": "medium",
+         "marker-symbol": "",
+         "Name": "Peace Like A River",
+         "Artist": "Elizabeth Mitchell",
+         "Play Date": "2014-09-02 10:54:35",
+         "Album": "You Are My Little Bird",
+       }
 ,
-('Name', 'Here Comes the Sun')
-('Artist', 'The Burning Souls')
-('Play Date', datetime.datetime(2014, 9, 4, 5, 22, 14))
-('Album', 'Reggae Playground')
+     {
+       "type": "Feature",
+       "properties": {
+         "marker-color": "#ff2f92",
+         "marker-size": "medium",
+         "marker-symbol": "",
+         "Name": "Here Comes the Sun",
+         "Artist": "The Burning Souls",
+         "Play Date": "2014-09-04 05:22:14",
+         "Album": "Reggae Playground",
+       }
 ,
-('Name', 'Los Pollitos (The Little Chicks)')
-('Artist', 'Elizabeth Mitchell')
-('Play Date', datetime.datetime(2014, 9, 2, 10, 56, 26))
-('Album', 'You Are My Little Bird')
+     {
+       "type": "Feature",
+       "properties": {
+         "marker-color": "#ff2f92",
+         "marker-size": "medium",
+         "marker-symbol": "",
+         "Name": "Los Pollitos (The Little Chicks)",
+         "Artist": "Elizabeth Mitchell",
+         "Play Date": "2014-09-02 10:56:26",
+         "Album": "You Are My Little Bird",
+       }
 ,
-('Name', 'Reggae Lullaby')
-('Artist', 'Asheba')
-('Play Date', datetime.datetime(2014, 9, 4, 5, 34, 3))
-('Album', 'Reggae Playground')
+     {
+       "type": "Feature",
+       "properties": {
+         "marker-color": "#ff2f92",
+         "marker-size": "medium",
+         "marker-symbol": "",
+         "Name": "Reggae Lullaby",
+         "Artist": "Asheba",
+         "Play Date": "2014-09-04 05:34:03",
+         "Album": "Reggae Playground",
+       }
 ,
-('Name', 'What a Wonderful World')
-('Artist', 'Louis Armstrong')
-('Play Date', datetime.datetime(2014, 11, 17, 6, 37, 23))
-('Album', 'Jazz for Kids: Sing, Clap, Wiggle and Shake')
+     {
+       "type": "Feature",
+       "properties": {
+         "marker-color": "#ff2f92",
+         "marker-size": "medium",
+         "marker-symbol": "",
+         "Name": "What a Wonderful World",
+         "Artist": "Louis Armstrong",
+         "Play Date": "2014-11-17 06:37:23",
+         "Album": "Jazz for Kids: Sing, Clap, Wiggle and Shake",
+       }
   ]
 }

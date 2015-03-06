@@ -80,12 +80,12 @@ def geojson(prop_list, data_list, file_name, path_name):
 
                 # write the properties from the records
                 properties_list = zip(prop_list,record[2:])
-                
+
                 for record_prop in properties_list:
-                    prop_line = '         "'+record_prop[0]+'": "'+record_prop[1]+'",'
+                    prop_line = '         "'+str(record_prop[0])+'": "'+str(record_prop[1])+'",'
                     write_line(handle,prop_line)
 
-                write_line(handle,'       },')
+                write_line(handle,'       }')
 
                 # write the begining of the geometry portion of the feature
 
