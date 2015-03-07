@@ -7,23 +7,19 @@
          "marker-color": "#ff2f92",
          "marker-size": "medium",
          "marker-symbol": "",
-         "Name": "Little Bird, Little Bird",
-         "Artist": "Elizabeth Mitchell",
-         "Play Date": "2014-09-02 10:42:47",
-         "Album": "You Are My Little Bird",
-       }
-,
-     {
-       "type": "Feature",
-       "properties": {
-         "marker-color": "#ff2f92",
-         "marker-size": "medium",
-         "marker-symbol": "",
          "Name": "Moonshadow",
          "Artist": "Cat Stevens",
          "Play Date": "2014-05-29 15:45:32",
-         "Album": "Greatest Hits",
+         "Album": "Greatest Hits"
+       },
+       "geometry": {
+         "type": "Point",
+         "coordinates": [
+           -122.322932,
+           47.5967828
+         ]
        }
+    }
 ,
      {
        "type": "Feature",
@@ -34,8 +30,16 @@
          "Name": "Guten Abend Gute Nacht (Brahm's Lullabye)",
          "Artist": "Roger Whittaker",
          "Play Date": "2014-12-23 21:01:27",
-         "Album": "It's A Veradale Christmas",
+         "Album": "It's A Veradale Christmas"
+       },
+       "geometry": {
+         "type": "Point",
+         "coordinates": [
+           -122.312852612,
+           47.7644670052
+         ]
        }
+    }
 ,
      {
        "type": "Feature",
@@ -43,23 +47,19 @@
          "marker-color": "#ff2f92",
          "marker-size": "medium",
          "marker-symbol": "",
-         "Name": "If Moon was Cookie",
-         "Artist": "Cookie Monster",
-         "Play Date": "2014-11-13 06:33:14",
-         "Album": ""C" is for Cookie:  Cookie's Favorite Songs",
-       }
-,
-     {
-       "type": "Feature",
-       "properties": {
-         "marker-color": "#ff2f92",
-         "marker-size": "medium",
-         "marker-symbol": "",
-         "Name": "Peace Like A River",
+         "Name": "Little Bird, Little Bird",
          "Artist": "Elizabeth Mitchell",
-         "Play Date": "2014-09-02 10:54:35",
-         "Album": "You Are My Little Bird",
+         "Play Date": "2014-09-02 10:42:47",
+         "Album": "You Are My Little Bird"
+       },
+       "geometry": {
+         "type": "Point",
+         "coordinates": [
+           -122.33066788,
+           47.5990677537
+         ]
        }
+    }
 ,
      {
        "type": "Feature",
@@ -70,8 +70,16 @@
          "Name": "Here Comes the Sun",
          "Artist": "The Burning Souls",
          "Play Date": "2014-09-04 05:22:14",
-         "Album": "Reggae Playground",
+         "Album": "Reggae Playground"
+       },
+       "geometry": {
+         "type": "Point",
+         "coordinates": [
+           -122.312923568,
+           47.7644360476
+         ]
        }
+    }
 ,
      {
        "type": "Feature",
@@ -82,8 +90,16 @@
          "Name": "Los Pollitos (The Little Chicks)",
          "Artist": "Elizabeth Mitchell",
          "Play Date": "2014-09-02 10:56:26",
-         "Album": "You Are My Little Bird",
+         "Album": "You Are My Little Bird"
+       },
+       "geometry": {
+         "type": "Point",
+         "coordinates": [
+           -122.330500029,
+           47.5990102608
+         ]
        }
+    }
 ,
      {
        "type": "Feature",
@@ -94,8 +110,56 @@
          "Name": "Reggae Lullaby",
          "Artist": "Asheba",
          "Play Date": "2014-09-04 05:34:03",
-         "Album": "Reggae Playground",
+         "Album": "Reggae Playground"
+       },
+       "geometry": {
+         "type": "Point",
+         "coordinates": [
+           -122.312940669,
+           47.7644303483
+         ]
        }
+    }
+,
+     {
+       "type": "Feature",
+       "properties": {
+         "marker-color": "#ff2f92",
+         "marker-size": "medium",
+         "marker-symbol": "",
+         "Name": "If Moon was Cookie",
+         "Artist": "Cookie Monster",
+         "Play Date": "2014-11-13 06:33:14",
+         "Album": ""C" is for Cookie:  Cookie's Favorite Songs"
+       },
+       "geometry": {
+         "type": "Point",
+         "coordinates": [
+           -122.312894665,
+           47.7644027917
+         ]
+       }
+    }
+,
+     {
+       "type": "Feature",
+       "properties": {
+         "marker-color": "#ff2f92",
+         "marker-size": "medium",
+         "marker-symbol": "",
+         "Name": "Peace Like A River",
+         "Artist": "Elizabeth Mitchell",
+         "Play Date": "2014-09-02 10:54:35",
+         "Album": "You Are My Little Bird"
+       },
+       "geometry": {
+         "type": "Point",
+         "coordinates": [
+           -122.330481943,
+           47.5990084755
+         ]
+       }
+    }
 ,
      {
        "type": "Feature",
@@ -106,7 +170,15 @@
          "Name": "What a Wonderful World",
          "Artist": "Louis Armstrong",
          "Play Date": "2014-11-17 06:37:23",
-         "Album": "Jazz for Kids: Sing, Clap, Wiggle and Shake",
+         "Album": "Jazz for Kids: Sing, Clap, Wiggle and Shake"
+       },
+       "geometry": {
+         "type": "Point",
+         "coordinates": [
+           -122.316264,
+           47.7862703
+         ]
        }
+    }
   ]
 }

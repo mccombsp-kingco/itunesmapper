@@ -82,16 +82,32 @@ def geojson(prop_list, data_list, file_name, path_name):
                 properties_list = zip(prop_list,record[2:])
 
                 for record_prop in properties_list:
-                    prop_line = '         "'+str(record_prop[0])+'": "'+str(record_prop[1])+'",'
+                    # Test to see if a comma needs to at the end of the property line
+                    if record_prop[0] == prop_list[-1]:
+                        line_end = '"'
+                    else:
+                        line_end = '",'
+                        
+                    prop_line = '         "'+str(record_prop[0])+'": "'+str(record_prop[1])+line_end
                     write_line(handle,prop_line)
 
-                write_line(handle,'       }')
+                write_line(handle,'       },')
 
                 # write the begining of the geometry portion of the feature
+                geometry_list1 = ['       "geometry": {','         "type": "Point",',
+                                 '         "coordinates": [']
+                                 
+                for line in geometry_list1:
+                    write_line(handle,line)   
 
-                # write the longitue then the latitude. NOT A TYPO
+                # write the longitude then the latitude. NOT A TYPO
+                write_line(handle,'           '+str(record[1])+',') #Longitude
+                write_line(handle,'           '+str(record[0])) #Latitude
 
                 #write the ending brackets for the feature
+                geometry_list2 = ['         ]','       }','    }']
+                for line in geometry_list2:
+                    write_line(handle,line)
 
             for line in end_list:
                 write_line(handle,line)
