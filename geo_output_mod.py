@@ -74,7 +74,7 @@ def geojson(prop_list, data_list, file_name, path_name):
                                   '       "properties": {',
                                   '         "marker-color": "#ff2f92",',
                                   '         "marker-size": "medium",',
-                                  '         "marker-symbol": "",']
+                                  '         "marker-symbol": "music",']
                 for line in feat_start_list:
                     write_line(handle,line)
 
@@ -117,31 +117,6 @@ def geojson(prop_list, data_list, file_name, path_name):
     except:
         return_message = return_message+'Exception:\n'+str(sys.exc_info()[1])+'\n'
         #debug# raise
-        
-
-    #                 Example output
-    # ================================================
-    # {
-    #   "type": "FeatureCollection",
-    #   "features": [
-    #     {
-    #       "type": "Feature",
-    #       "properties": {
-    #         "marker-color": "#ff2f92",
-    #         "marker-size": "medium",
-    #         "marker-symbol": "",
-    #         "name": "Little Bird, Little Bird"
-    #       },
-    #       "geometry": {
-    #         "type": "Point",
-    #         "coordinates": [
-    #           -122.27971970295104,
-    #           47.70029246496672
-    #         ]
-    #       }
-    #     }
-    #   ]
-    # }
 
     if return_message == '':
         return_message = 'This string intentionaly left blank'
