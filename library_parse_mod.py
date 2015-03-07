@@ -65,7 +65,7 @@ def convert_text_to_data(tag_txt, text_txt):
     elif tag_txt == 'true':
         return True
     elif tag_txt == 'string':
-        return text_txt
+        return text_txt.replace('"',"'")
     elif tag_txt == 'integer':
         return int(text_txt)
     elif tag_txt == 'date':
