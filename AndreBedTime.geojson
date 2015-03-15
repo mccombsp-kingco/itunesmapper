@@ -7,6 +7,26 @@
          "marker-color": "#ff2f92",
          "marker-size": "medium",
          "marker-symbol": "music",
+         "Name": "Little Bird, Little Bird",
+         "Artist": "Elizabeth Mitchell",
+         "Play Date": "2014-09-02 10:42:47",
+         "Album": "You Are My Little Bird"
+       },
+       "geometry": {
+         "type": "Point",
+         "coordinates": [
+           -122.33066788,
+           47.5990677537
+         ]
+       }
+    }
+,
+     {
+       "type": "Feature",
+       "properties": {
+         "marker-color": "#ff2f92",
+         "marker-size": "medium",
+         "marker-symbol": "music",
          "Name": "Moonshadow",
          "Artist": "Cat Stevens",
          "Play Date": "2014-05-29 15:45:32",
@@ -47,16 +67,36 @@
          "marker-color": "#ff2f92",
          "marker-size": "medium",
          "marker-symbol": "music",
-         "Name": "Little Bird, Little Bird",
+         "Name": "If Moon was Cookie",
+         "Artist": "Cookie Monster",
+         "Play Date": "2014-11-13 06:33:14",
+         "Album": "'C' is for Cookie:  Cookie's Favorite Songs"
+       },
+       "geometry": {
+         "type": "Point",
+         "coordinates": [
+           -122.312894665,
+           47.7644027917
+         ]
+       }
+    }
+,
+     {
+       "type": "Feature",
+       "properties": {
+         "marker-color": "#ff2f92",
+         "marker-size": "medium",
+         "marker-symbol": "music",
+         "Name": "Peace Like A River",
          "Artist": "Elizabeth Mitchell",
-         "Play Date": "2014-09-02 10:42:47",
+         "Play Date": "2014-09-02 10:54:35",
          "Album": "You Are My Little Bird"
        },
        "geometry": {
          "type": "Point",
          "coordinates": [
-           -122.33066788,
-           47.5990677537
+           -122.330481943,
+           47.5990084755
          ]
        }
     }
@@ -117,46 +157,6 @@
          "coordinates": [
            -122.312940669,
            47.7644303483
-         ]
-       }
-    }
-,
-     {
-       "type": "Feature",
-       "properties": {
-         "marker-color": "#ff2f92",
-         "marker-size": "medium",
-         "marker-symbol": "music",
-         "Name": "If Moon was Cookie",
-         "Artist": "Cookie Monster",
-         "Play Date": "2014-11-13 06:33:14",
-         "Album": "'C' is for Cookie:  Cookie's Favorite Songs"
-       },
-       "geometry": {
-         "type": "Point",
-         "coordinates": [
-           -122.312894665,
-           47.7644027917
-         ]
-       }
-    }
-,
-     {
-       "type": "Feature",
-       "properties": {
-         "marker-color": "#ff2f92",
-         "marker-size": "medium",
-         "marker-symbol": "music",
-         "Name": "Peace Like A River",
-         "Artist": "Elizabeth Mitchell",
-         "Play Date": "2014-09-02 10:54:35",
-         "Album": "You Are My Little Bird"
-       },
-       "geometry": {
-         "type": "Point",
-         "coordinates": [
-           -122.330481943,
-           47.5990084755
          ]
        }
     }
