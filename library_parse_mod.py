@@ -34,7 +34,7 @@ import datetime
             
     2. Implement the library Explorer functionality
 
-    3. Make __table_choice__() work
+    3. Make _table_choice() work
 
     4. handle play lists            
 '''
@@ -243,7 +243,7 @@ def parse_XML():
 
     return (songs_dict, play_list_dict)
 
-def __table_choice__(header, body):
+def _table_choice(header, body):
 
     """ NOT FUNCTIONAL Code: Input header (a list of strings) and body (a list of tuples) length of
     header should match length of all tuples."""
